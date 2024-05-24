@@ -29,6 +29,7 @@ android {
         buildConfigField("String", "HOSTNAME", "\"${properties.getProperty("HOSTNAME")}\"")
         buildConfigField("String", "PASSWORD", "\"${properties.getProperty("PASSWORD")}\"")
         buildConfigField("String", "VERSION", "\"${properties.getProperty("VERSION")}\"")
+        buildConfigField("String", "API_Secret_Key ", "\"${properties.getProperty("API_Secret_Key")}\"")
 
     }
 
@@ -167,12 +168,15 @@ dependencies {
     kaptTest ("com.google.dagger:hilt-compiler:2.48")
 
     // Hilt
-    implementation ("com.google.dagger:hilt-android:2.48")
-    kapt ("com.google.dagger:hilt-compiler:2.48")
+    implementation ("com.google.dagger:hilt-android:2.48.1")
+    kapt ("com.google.dagger:hilt-compiler:2.48.1")
 
     // For instrumentation tests
     androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48")
     kaptAndroidTest ("com.google.dagger:hilt-compiler:2.48")
+
+    //curved bottom nav
+    implementation ("com.github.qamarelsafadi:CurvedBottomNavigation:0.1.3")
 
 }
 

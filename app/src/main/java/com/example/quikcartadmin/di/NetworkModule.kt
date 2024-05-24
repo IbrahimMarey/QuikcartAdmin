@@ -1,7 +1,9 @@
 package com.example.quikcartadmin.di
 
 import com.example.quikcartadmin.helpers.Constants
-import com.example.quikcartadmin.models.remote.ProductWebServices
+import com.example.quikcartadmin.models.remote.webservices.CouponsWebServices
+import com.example.quikcartadmin.models.remote.webservices.InventoryWebServices
+import com.example.quikcartadmin.models.remote.webservices.ProductsWebServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,8 +36,18 @@ class NetworkProvider {
     }
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit) : ProductWebServices{
-        return retrofit.create(ProductWebServices::class.java)
+    fun provideProductsApiService(retrofit: Retrofit) : ProductsWebServices {
+        return retrofit.create(ProductsWebServices::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideCouponsApiService(retrofit: Retrofit): CouponsWebServices {
+        return retrofit.create(CouponsWebServices::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideInventoryApiService(retrofit: Retrofit): InventoryWebServices {
+        return retrofit.create(InventoryWebServices::class.java)
+    }
 }
