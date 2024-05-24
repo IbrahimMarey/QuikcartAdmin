@@ -1,6 +1,7 @@
 import com.example.quikcartadmin.models.entities.coupons.CouponsCountResponse
 import com.example.quikcartadmin.models.entities.inventory.InventoryCountResponse
 import com.example.quikcartadmin.models.entities.products.ProductsCountResponse
+import com.example.quikcartadmin.models.entities.products.ProductsResponse
 import com.example.quikcartadmin.models.remote.datasource.IRemoteDataSource
 import com.example.quikcartadmin.models.remote.datasource.RemoteDataSourceImp
 import com.example.quikcartadmin.models.repository.IAdminRepository
@@ -20,5 +21,9 @@ class AdminRepository @Inject constructor(
 
     override suspend fun getCountOfInventory(): Flow<InventoryCountResponse> {
         return remoteDataSource.getCountOfInventory()
+    }
+
+    override suspend fun getAllProducts(): Flow<ProductsResponse> {
+        return remoteDataSource.getAllProducts()
     }
 }

@@ -14,6 +14,29 @@
         tools:context=".ui.home.view.HomeFragment">
 
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image_home"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@drawable/product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.787"
+            app:layout_constraintStart_toEndOf="@+id/hello_text"
+            app:layout_constraintTop_toTopOf="@+id/hello_text" />
+
+        <TextView
+            android:id="@+id/hello_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back, Ahmed"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/xd_text_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
         <androidx.cardview.widget.CardView
             android:id="@+id/card_count_of_product"
             android:layout_width="match_parent"
@@ -21,16 +44,16 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/xd_asset_pink"
             android:elevation="16dp"
-            android:padding="8dp"
+            android:padding="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hello_text"
             app:cardCornerRadius="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/product_title_home"
@@ -66,7 +89,7 @@
                     android:textColor="@color/xd_asset_burgundy"
                     android:textSize="21sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="25dp"
                     app:layout_constraintStart_toStartOf="@+id/txt_view"
                     app:layout_constraintTop_toBottomOf="@+id/txt_view" />
 
@@ -80,14 +103,14 @@
                     android:textColor="@color/xd_text_view"
                     android:textSize="50sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/count_text_home"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/count_text_home" />
 
                 <ImageView
                     android:id="@+id/image_product"
                     android:layout_width="129dp"
-                    android:layout_height="164dp"
+                    android:layout_height="154dp"
                     android:layout_margin="16dp"
                     android:contentDescription="@string/products"
                     android:src="@drawable/product"
@@ -127,7 +150,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp">
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/coupons_title_home"
@@ -163,7 +186,7 @@
             android:textColor="@color/xd_blue_asset"
             android:textSize="21sp"
             android:textStyle="bold"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="@+id/txt_view_couons"
             app:layout_constraintTop_toBottomOf="@+id/txt_view_couons" />
 
@@ -184,7 +207,7 @@
         <ImageView
             android:id="@+id/image_coupons"
             android:layout_width="129dp"
-            android:layout_height="164dp"
+            android:layout_height="154dp"
             android:layout_margin="16dp"
             android:contentDescription="@string/products"
             android:src="@drawable/coupon"
@@ -212,81 +235,76 @@
         app:layout_constraintTop_toBottomOf="@id/card_count_of_product"
         app:cardCornerRadius="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
 
-        <TextView
-            android:id="@+id/inventory_title_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/inventory"
-            android:textColor="@color/xd_orange"
-            android:textSize="31sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image_inventory"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/inventory_title_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/inventory"
+                android:textColor="@color/xd_orange"
+                android:textSize="31sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_inventory"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_view_inventory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/manage_your_inventory"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/inventory_title_home"
-            app:layout_constraintTop_toBottomOf="@+id/inventory_title_home" />
-
-
-        <TextView
-            android:id="@+id/count_inventory_text_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/locations"
-            android:textColor="@color/xd_pink"
-            android:textSize="21sp"
-            android:textStyle="bold"
-            android:layout_marginTop="35dp"
-            app:layout_constraintStart_toStartOf="@+id/txt_view_inventory"
-            app:layout_constraintTop_toBottomOf="@+id/txt_view_inventory" />
+            <TextView
+                android:id="@+id/txt_view_inventory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/manage_your_inventory"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/inventory_title_home"
+                app:layout_constraintTop_toBottomOf="@+id/inventory_title_home" />
 
 
-        <TextView
-            android:id="@+id/count_inventory_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="5"
-            android:textColor="@color/white"
-            android:textSize="50sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/count_inventory_text_home"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/count_inventory_text_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/locations"
+                android:textColor="@color/xd_pink"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/txt_view_inventory"
+                app:layout_constraintTop_toBottomOf="@+id/txt_view_inventory" />
 
 
+            <TextView
+                android:id="@+id/count_inventory_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/count_inventory_text_home" />
+
+            <ImageView
+                android:id="@+id/image_inventory"
+                android:layout_width="129dp"
+                android:layout_height="154dp"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/products"
+                android:src="@drawable/inventory"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-
-        <ImageView
-            android:id="@+id/image_inventory"
-            android:layout_width="129dp"
-            android:layout_height="164dp"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/products"
-            android:src="@drawable/inventory"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

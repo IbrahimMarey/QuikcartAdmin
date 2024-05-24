@@ -1,8 +1,10 @@
 package com.example.quikcartadmin.models.remote.datasource
 
+import com.example.quikcartadmin.models.entities.products.ProductsResponse
 import com.example.quikcartadmin.models.remote.webservices.CouponsWebServices
 import com.example.quikcartadmin.models.remote.webservices.InventoryWebServices
 import com.example.quikcartadmin.models.remote.webservices.ProductsWebServices
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -19,5 +21,9 @@ class RemoteDataSourceImp @Inject constructor(
     }
     override fun getCountOfInventory() = flow {
         emit(inventoryWebServices.getCountOfInventory())
+    }
+
+    override fun getAllProducts()= flow {
+        emit(productService.getProducts())
     }
 }

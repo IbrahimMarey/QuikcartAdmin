@@ -17,17 +17,15 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private var _homeBinding: FragmentHomeBinding? = null
-    private val binding get() = _homeBinding!!
-
+    lateinit var homeBinding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
+        return homeBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,17 +43,17 @@ class HomeFragment : Fragment() {
             homeViewModel.productCount.collect { uiState ->
                 when (uiState) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.cardCountOfProduct.visibility = View.GONE
+                        homeBinding.progressBar.visibility = View.VISIBLE
+                        homeBinding.cardCountOfProduct.visibility = View.GONE
                     }
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfProduct.visibility = View.VISIBLE
-                        binding.countValue.text = uiState.data.count.toString()
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfProduct.visibility = View.VISIBLE
+                        homeBinding.countValue.text = uiState.data.count.toString()
                     }
                     is UiState.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfProduct.visibility = View.VISIBLE
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfProduct.visibility = View.VISIBLE
                         Log.e ("HomeFragment","Error: ${uiState.msg.message}")
                     }
                 }
@@ -69,17 +67,17 @@ class HomeFragment : Fragment() {
             homeViewModel.couponsCount.collect { uiState ->
                 when (uiState) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.cardCountOfCoupons.visibility = View.GONE
+                        homeBinding.progressBar.visibility = View.VISIBLE
+                        homeBinding.cardCountOfCoupons.visibility = View.GONE
                     }
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfCoupons.visibility = View.VISIBLE
-                        binding.countCouponsValue.text = uiState.data.count.toString()
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfCoupons.visibility = View.VISIBLE
+                        homeBinding.countCouponsValue.text = uiState.data.count.toString()
                     }
                     is UiState.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfCoupons.visibility = View.VISIBLE
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfCoupons.visibility = View.VISIBLE
                         Log.e ("HomeFragment","Error: ${uiState.msg.message}")
                     }
                 }
@@ -92,17 +90,17 @@ class HomeFragment : Fragment() {
             homeViewModel.inventoryCount.collect { uiState ->
                 when (uiState) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.cardCountOfInventory.visibility = View.GONE
+                        homeBinding.progressBar.visibility = View.VISIBLE
+                        homeBinding.cardCountOfInventory.visibility = View.GONE
                     }
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfInventory.visibility = View.VISIBLE
-                        binding.countInventoryValue.text = uiState.data.count.toString()
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfInventory.visibility = View.VISIBLE
+                        homeBinding.countInventoryValue.text = uiState.data.count.toString()
                     }
                     is UiState.Failed -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardCountOfInventory.visibility = View.VISIBLE
+                        homeBinding.progressBar.visibility = View.GONE
+                        homeBinding.cardCountOfInventory.visibility = View.VISIBLE
                         Log.e ("HomeFragment","Error: ${uiState.msg.message}")
                     }
                 }
@@ -110,8 +108,4 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _homeBinding = null
-    }
 }

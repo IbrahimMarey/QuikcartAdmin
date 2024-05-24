@@ -144,5 +144,7 @@
     <string name="inventory">Inventory</string>
     <string name="locations">Locations</string>
     <string name="manage_your_inventory">Manage your Inventory</string>
+    <string name="quick_cart_admin">Quick Cart Admin</string>
+    <string name="add_product">Create Product</string>
 
 </resources>

@@ -19,7 +19,7 @@ interface ProductsWebServices {
     suspend fun getCountOfProducts(): ProductsCountResponse
 
     @Headers("Content-Type:application/json", "X-Shopify-Access-Token:"+ BuildConfig.PASSWORD)
-    @GET("products.json?")
+    @GET("products.json")
     suspend fun getProducts(): ProductsResponse
 
     @POST("products.json")
