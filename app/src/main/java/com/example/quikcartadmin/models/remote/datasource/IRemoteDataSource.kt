@@ -10,6 +10,6 @@ interface IRemoteDataSource {
     fun getCountOfProducts(): Flow<ProductsCountResponse>
     fun getCountOfCoupons(): Flow<CouponsCountResponse>
     fun getCountOfInventory(): Flow<InventoryCountResponse>
-
     fun getAllProducts(): Flow<ProductsResponse>
+    suspend fun deleteProduct(productId: Long?)
 }

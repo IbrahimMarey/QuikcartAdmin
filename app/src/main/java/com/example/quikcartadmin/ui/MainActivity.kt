@@ -7,6 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.ActivityMainBinding
 import com.qamar.curvedbottomnaviagtion.CurvedBottomNavigation
+import com.qamar.curvedbottomnaviagtion.gone
+import com.qamar.curvedbottomnaviagtion.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,5 +50,14 @@ class MainActivity : AppCompatActivity() {
     private fun initNavHost() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        // Set the visibility of the bottom navigation to GONE
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id != R.id.home && destination.id != R.id.all_products &&
+                destination.id != R.id.all_coupons && destination.id != R.id.profile) {
+                binding.bottomNavigation.gone()
+            } else {
+                binding.bottomNavigation.visible()
+            }
+        }
     }
 }

@@ -146,5 +146,9 @@
     <string name="manage_your_inventory">Manage your Inventory</string>
     <string name="quick_cart_admin">Quick Cart Admin</string>
     <string name="add_product">Create Product</string>
+    <string name="variants_of_products">Variants of Products</string>
+    <string name="images_of_products">Images of Products</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="delete">delete</string>
 
 </resources>

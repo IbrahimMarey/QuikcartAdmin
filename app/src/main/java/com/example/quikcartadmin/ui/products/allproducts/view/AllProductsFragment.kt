@@ -1,20 +1,21 @@
-package com.example.quikcartadmin.ui.products.view
+package com.example.quikcartadmin.ui.products.allproducts.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAllProductsBinding
 import com.example.quikcartadmin.helpers.UiState
-import com.example.quikcartadmin.ui.home.viewmodel.HomeViewModel
-import com.example.quikcartadmin.ui.products.viewmodel.AllProductsViewModel
+import com.example.quikcartadmin.models.entities.products.ProductsItem
+import com.example.quikcartadmin.ui.products.allproducts.viewmodel.AllProductsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -40,9 +41,19 @@ class AllProductsFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(){
-        allProductAdapter = AllProductAdapter(requireContext()) { productItem ->
-            // Handle item click if needed
-        }
+
+        allProductAdapter = AllProductAdapter(
+            context = requireContext(),
+            onClick = { productItem ->
+                // send argument by product details
+                val action = AllProductsFragmentDirections.actionAllProductsToProductDetailsFragment()
+                action.setProductItem(productItem)
+                findNavController().navigate(action)
+            },
+            onDeleteClick = { productItem ->
+                showDeleteConfirmationDialog(productItem)
+            }
+        )
         proudctsBinding.productRecyclerView.apply {
             layoutManager = GridLayoutManager(context,2)
             adapter = allProductAdapter
@@ -69,5 +80,16 @@ class AllProductsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showDeleteConfirmationDialog(productItem: ProductsItem) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirm Deletion")
+            .setMessage("Are you sure you want to delete this product?")
+            .setPositiveButton("Delete") { _, _ ->
+                allProductViewModel.deleteProduct(productItem.id)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }

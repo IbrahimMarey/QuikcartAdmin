@@ -83,8 +83,8 @@ dependencies {
     implementation ("androidx.room:room-runtime:2.5.0")
     kapt ("androidx.room:room-compiler:2.5.0")
     // Navigation Components
-    implementation("androidx.navigation:navigation-fragment:2.7.7")
-    implementation("androidx.navigation:navigation-ui:2.7.7")
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     //cardView
     implementation ("androidx.cardview:cardview:1.0.0")
     //Shimmer

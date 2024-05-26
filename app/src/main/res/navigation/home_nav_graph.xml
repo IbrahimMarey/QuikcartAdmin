@@ -13,9 +13,13 @@
 
     <fragment
         android:id="@+id/all_products"
-        android:name="com.example.quikcartadmin.ui.products.view.AllProductsFragment"
+        android:name="com.example.quikcartadmin.ui.products.allproducts.view.AllProductsFragment"
         android:label="Products"
-        tools:layout="@layout/fragment_all_products" />
+        tools:layout="@layout/fragment_all_products" >
+        <action
+            android:id="@+id/action_all_products_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
 
 
     <fragment
@@ -29,5 +33,16 @@
         android:name="com.example.quikcartadmin.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.example.quikcartadmin.ui.products.productdetails.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product_item"
+            app:argType="com.example.quikcartadmin.models.entities.products.ProductsItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
 </navigation>

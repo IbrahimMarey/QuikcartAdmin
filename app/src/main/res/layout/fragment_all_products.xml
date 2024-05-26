@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.products.view.AllProductsFragment">
+    tools:context=".ui.products.allproducts.view.AllProductsFragment">
 
     <com.google.android.material.search.SearchBar
         android:id="@+id/search_bar_all_product"

@@ -11,4 +11,6 @@ interface IAdminRepository {
     suspend fun getCountOfCoupons() : Flow<CouponsCountResponse>
     suspend fun getCountOfInventory() : Flow<InventoryCountResponse>
     suspend fun getAllProducts() : Flow<ProductsResponse>
+    suspend fun deleteProduct(productId: Long?)
+
 }

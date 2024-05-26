@@ -1,60 +1,61 @@
 package com.example.quikcartadmin.models.entities.products
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ProductsItem(
 
 	@field:SerializedName("image")
-	val image: Image,
+	val image: Image?,
 
 	@field:SerializedName("body_html")
-	val bodyHtml: String,
+	val bodyHtml: String?,
 
 	@field:SerializedName("images")
-	val images: List<ImagesItem>,
+	val images: List<ImagesItem>?,
 
 	@field:SerializedName("created_at")
-	val createdAt: String,
+	val createdAt: String?,
 
 	@field:SerializedName("handle")
-	val handle: String,
+	val handle: String?,
 
 	@field:SerializedName("variants")
-	val variants: List<VariantsItem>,
+	val variants: List<VariantsItem>?,
 
 	@field:SerializedName("title")
-	val title: String,
+	val title: String?,
 
 	@field:SerializedName("tags")
-	val tags: String,
+	val tags: String?,
 
 	@field:SerializedName("published_scope")
-	val publishedScope: String,
+	val publishedScope: String?,
 
 	@field:SerializedName("product_type")
-	val productType: String,
+	val productType: String?,
 
 	@field:SerializedName("template_suffix")
-	val templateSuffix: Any,
+	val templateSuffix: Any?,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String,
+	val updatedAt: String?,
 
 	@field:SerializedName("vendor")
-	val vendor: String,
+	val vendor: String?,
 
 	@field:SerializedName("admin_graphql_api_id")
-	val adminGraphqlApiId: String,
+	val adminGraphqlApiId: String?,
 
 	@field:SerializedName("options")
-	val options: List<OptionsItem>,
+	val options: List<OptionsItem>?,
 
 	@field:SerializedName("id")
-	val id: Long,
+	val id: Long?,
 
 	@field:SerializedName("published_at")
-	val publishedAt: String,
+	val publishedAt: String?,
 
 	@field:SerializedName("status")
-	val status: String
-)
+	val status: String?
+) : Serializable

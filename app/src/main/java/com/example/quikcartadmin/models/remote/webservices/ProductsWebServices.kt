@@ -25,9 +25,10 @@ interface ProductsWebServices {
     @POST("products.json")
     suspend fun createProduct(@Body body: ProductBody): SingleProductsResponse
 
+    @Headers("Content-Type:application/json", "X-Shopify-Access-Token:"+ BuildConfig.PASSWORD)
     @DELETE("products/{product_id}.json")
     suspend fun deleteProduct(
-        @Path("product_id") productId : Long
+        @Path("product_id") productId: Long?
     )
 
     @PUT("products/{product_id}.json")

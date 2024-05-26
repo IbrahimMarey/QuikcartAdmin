@@ -1,10 +1,9 @@
-package com.example.quikcartadmin.ui.products.viewmodel
+package com.example.quikcartadmin.ui.products.allproducts.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quikcartadmin.helpers.UiState
-import com.example.quikcartadmin.models.entities.products.ProductsCountResponse
 import com.example.quikcartadmin.models.entities.products.ProductsResponse
 import com.example.quikcartadmin.models.repository.IAdminRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +36,17 @@ class AllProductsViewModel @Inject constructor(
                 .collect {
                     _allProduct.value = UiState.Success(it)
                 }
+        }
+    }
+
+    fun deleteProduct(productId: Long?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                adminRepo.deleteProduct(productId)
+                fetchAllProduct()
+            } catch (e: Exception) {
+                Log.e("AllProductsViewModel", "Error deleting product: ${e.message}")
+            }
         }
     }
 }

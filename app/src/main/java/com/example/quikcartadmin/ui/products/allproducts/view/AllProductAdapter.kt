@@ -1,4 +1,4 @@
-package com.example.quikcartadmin.ui.products.view
+package com.example.quikcartadmin.ui.products.allproducts.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,7 +11,9 @@ import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.ProductItemBinding
 import com.example.quikcartadmin.models.entities.products.ProductsItem
 
-class AllProductAdapter (val context: Context,val onClick:(ProductsItem)-> Unit)
+class AllProductAdapter (val context: Context,
+                         val onClick:(ProductsItem)-> Unit,
+                         val onDeleteClick: (ProductsItem) -> Unit)
     : ListAdapter<ProductsItem, AllProductAdapter.AllProductViewHolder>(AllProductsDiffUtil) {
 
     class AllProductViewHolder(val allProductsBinding : ProductItemBinding)
@@ -28,7 +30,7 @@ class AllProductAdapter (val context: Context,val onClick:(ProductsItem)-> Unit)
     override fun onBindViewHolder(holder: AllProductViewHolder, position: Int) {
         var current = getItem(position)
 
-        holder.allProductsBinding.productPrice.text = current.variants[0].price
+        holder.allProductsBinding.productPrice.text = (current.variants?.get(0)?.price ?: 100).toString()
         holder.allProductsBinding.productName.text = current.title
         holder.allProductsBinding.typeName.text = "Type: ${current.productType}"
         holder.allProductsBinding.vendorOfProduct.text = "Vendor: ${current.vendor}"
@@ -40,6 +42,14 @@ class AllProductAdapter (val context: Context,val onClick:(ProductsItem)-> Unit)
             .placeholder(R.drawable.product)
             .error(R.drawable.ic_close)
             .into(holder.allProductsBinding.imageOfProduct)
+
+        holder.itemView.setOnClickListener {
+            onClick(current)
+        }
+
+        holder.allProductsBinding.deleteProduct.setOnClickListener {
+            onDeleteClick(current)
+        }
     }
 }
 

@@ -5,35 +5,35 @@ import com.google.gson.annotations.SerializedName
 data class ImagesItem(
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String,
+	val updatedAt: String?,
 
 	@field:SerializedName("src")
-	val src: String,
+	val src: String?,
 
 	@field:SerializedName("product_id")
-	val productId: Long,
+	val productId: Long?,
 
 	@field:SerializedName("admin_graphql_api_id")
-	val adminGraphqlApiId: String,
+	val adminGraphqlApiId: String?,
 
 	@field:SerializedName("alt")
-	val alt: Any,
+	val alt: Any?,
 
 	@field:SerializedName("width")
-	val width: Int,
+	val width: Int?,
 
 	@field:SerializedName("created_at")
-	val createdAt: String,
+	val createdAt: String?,
 
 	@field:SerializedName("variant_ids")
-	val variantIds: List<Any>,
+	val variantIds: List<Any>?,
 
 	@field:SerializedName("id")
-	val id: Long,
+	val id: Long?,
 
 	@field:SerializedName("position")
-	val position: Int,
+	val position: Int?,
 
 	@field:SerializedName("height")
-	val height: Int
+	val height: Int?
 )
