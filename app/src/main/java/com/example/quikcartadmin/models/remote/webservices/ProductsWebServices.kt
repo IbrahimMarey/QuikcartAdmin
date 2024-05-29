@@ -22,6 +22,13 @@ interface ProductsWebServices {
     @GET("products.json")
     suspend fun getProducts(): ProductsResponse
 
+    @Headers("Content-Type:application/json", "X-Shopify-Access-Token:"+ BuildConfig.PASSWORD)
+    @PUT("products/{product_id}.json")
+    suspend fun updateProduct(
+        @Path("product_id") productId : Long,
+        @Body body: SingleProductsResponse
+    ): SingleProductsResponse
+
     @POST("products.json")
     suspend fun createProduct(@Body body: ProductBody): SingleProductsResponse
 
@@ -30,11 +37,4 @@ interface ProductsWebServices {
     suspend fun deleteProduct(
         @Path("product_id") productId: Long?
     )
-
-    @PUT("products/{product_id}.json")
-    suspend fun updateProduct(
-        @Path("product_id") productId : Long,
-        @Body body: SingleProductsResponse
-    ): SingleProductsResponse
-
 }

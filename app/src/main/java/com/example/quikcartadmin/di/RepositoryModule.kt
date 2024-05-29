@@ -1,7 +1,6 @@
 package com.example.quikcartadmin.di
 
-import AdminRepository
-import com.example.quikcartadmin.models.remote.datasource.IRemoteDataSource
+import com.example.quikcartadmin.models.repository.AdminRepository
 import com.example.quikcartadmin.models.remote.datasource.RemoteDataSourceImp
 import com.example.quikcartadmin.models.repository.IAdminRepository
 import dagger.Module

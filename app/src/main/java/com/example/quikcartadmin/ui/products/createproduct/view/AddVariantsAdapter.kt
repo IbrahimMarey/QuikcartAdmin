@@ -1,4 +1,4 @@
-package com.example.quikcartadmin.ui.products.productdetails
+package com.example.quikcartadmin.ui.products.createproduct.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,19 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.quikcartadmin.databinding.VariantsDetailsItemBinding
+import com.example.quikcartadmin.databinding.VariantsCreateItemBinding
 import com.example.quikcartadmin.models.entities.products.VariantsItem
 
-class VariantsAdapter(val onClick:(VariantsItem) -> Unit)
-    : ListAdapter<VariantsItem, VariantsAdapter.VariantsViewHolder>(VariantsDiffUtil) {
-    class VariantsViewHolder(val variantItemBinding: VariantsDetailsItemBinding)
-        :RecyclerView.ViewHolder(variantItemBinding.root)
+class AddVariantsAdapter (val onClick:(VariantsItem) -> Unit)
+    : ListAdapter<VariantsItem, AddVariantsAdapter.VariantsViewHolder>(VariantsDiffUtil) {
+    class VariantsViewHolder(val variantItemBinding: VariantsCreateItemBinding)
+        : RecyclerView.ViewHolder(variantItemBinding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariantsViewHolder {
         val inflater: LayoutInflater =
             parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val variantsItemBinding = VariantsDetailsItemBinding.inflate(inflater, parent,false)
-        return VariantsAdapter.VariantsViewHolder(variantsItemBinding)
+        val variantsItemBinding = VariantsCreateItemBinding.inflate(inflater, parent,false)
+        return VariantsViewHolder(variantsItemBinding)
     }
 
     override fun onBindViewHolder(holder: VariantsViewHolder, position: Int) {
@@ -26,6 +26,10 @@ class VariantsAdapter(val onClick:(VariantsItem) -> Unit)
 
         holder.variantItemBinding.colorName.text = current.title
         holder.variantItemBinding.colorPrice.text = "Price: ${current.price}"
+
+        holder.variantItemBinding.deleteVariant.setOnClickListener {
+            onClick(current)
+        }
     }
 }
 

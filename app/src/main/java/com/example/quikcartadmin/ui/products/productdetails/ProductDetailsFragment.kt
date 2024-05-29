@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAllProductsBinding
 import com.example.quikcartadmin.databinding.FragmentProductDetailsBinding
+import com.example.quikcartadmin.ui.products.allproducts.view.AllProductsFragmentDirections
 
 class ProductDetailsFragment : Fragment() {
 
@@ -33,6 +35,13 @@ class ProductDetailsFragment : Fragment() {
         setDataFromArgument()
         setUpVariantsRecyclerView()
         setUpImagesRecyclerView()
+
+        detailsBinding.editProductBtn.setOnClickListener {
+            val action = ProductDetailsFragmentDirections.actionProductDetailsFragmentToCreateProductFragment()
+            action.setIsCreated(true)
+            action.setProductInfo(args.productItem)
+            findNavController().navigate(action)
+        }
     }
 
     private fun setUpVariantsRecyclerView() {
@@ -68,7 +77,7 @@ class ProductDetailsFragment : Fragment() {
         detailsBinding.description.text = productItem?.bodyHtml
         detailsBinding.rateOfProductDetails.rating = 3.5F
         detailsBinding.productVendorDetails.text = "Vendor :${productItem?.vendor}"
-        detailsBinding.productTypeDetails.text = "Type :${productItem?.productType}"
+        detailsBinding.productTypeDetails.text = "Category :${productItem?.productType}"
         detailsBinding.price.text = "${productItem?.variants?.get(0)?.price} EG" ?: "100"
 
         val imageUrl = productItem?.image?.src ?: "https://cdn.shopify.com/s/files/1/0703/5830/2955/files/8cd561824439482e3cea5ba8e3a6e2f6.jpg?v=1716233144"

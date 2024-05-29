@@ -32,7 +32,7 @@ class AllProductAdapter (val context: Context,
 
         holder.allProductsBinding.productPrice.text = (current.variants?.get(0)?.price ?: 100).toString()
         holder.allProductsBinding.productName.text = current.title
-        holder.allProductsBinding.typeName.text = "Type: ${current.productType}"
+        holder.allProductsBinding.typeName.text = "Category: ${current.productType}"
         holder.allProductsBinding.vendorOfProduct.text = "Vendor: ${current.vendor}"
         holder.allProductsBinding.rateOfProduct.rating = 5.0F
 

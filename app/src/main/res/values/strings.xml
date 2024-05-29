@@ -101,7 +101,7 @@
     <string name="orderNumber">Order number:</string>
     <string name="productsOrder">Products</string>
     <string name="priceOrder">Price:</string>
-    <string name="title">Title:</string>
+    <string name="title">Title</string>
     <string name="more">show more</string>
     <string name="orders">Orders</string>
     <string name="noInternet">No internet</string>
@@ -150,5 +150,9 @@
     <string name="images_of_products">Images of Products</string>
     <string name="edit_product">Edit Product</string>
     <string name="delete">delete</string>
+    <string name="vendor">Vendor Name</string>
+    <string name="product_type">Product Category</string>
+    <string name="add_some_pictures_to_product">Add Some Pictures to Product</string>
+    <string name="add_some_varinats_to_products">Add Some Varinats To Products</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.quikcartadmin.models.remote.datasource
 
+import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
 import com.example.quikcartadmin.models.remote.webservices.CouponsWebServices
 import com.example.quikcartadmin.models.remote.webservices.InventoryWebServices
 import com.example.quikcartadmin.models.remote.webservices.ProductsWebServices
@@ -26,5 +27,9 @@ class RemoteDataSourceImp @Inject constructor(
     }
     override suspend fun deleteProduct(productId: Long?) {
         productService.deleteProduct(productId)
+    }
+
+    override suspend fun updateProduct(productId: Long, product: SingleProductsResponse): SingleProductsResponse {
+        return productService.updateProduct(productId, product)
     }
 }

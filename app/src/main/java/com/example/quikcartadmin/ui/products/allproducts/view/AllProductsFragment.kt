@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAllProductsBinding
 import com.example.quikcartadmin.helpers.UiState
 import com.example.quikcartadmin.models.entities.products.ProductsItem
@@ -38,6 +39,9 @@ class AllProductsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
         fetchAllProducts()
+        proudctsBinding.addProduct.setOnClickListener {
+            findNavController().navigate(R.id.action_all_products_to_createProductFragment)
+        }
     }
 
     private fun setUpRecyclerView(){

@@ -1,5 +1,7 @@
 package com.example.quikcartadmin.models.entities.products
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class VariantsItem(
@@ -81,4 +83,72 @@ data class VariantsItem(
 
 	@field:SerializedName("image_id")
 	val imageId: Any?
-)
+) : Parcelable{
+	constructor(parcel: Parcel) : this(
+		parcel.readString(),
+		parcel.readValue(Int::class.java.classLoader) as? Int,
+		parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readValue(Long::class.java.classLoader) as? Long,
+		parcel.readString(),
+		parcel.readValue(Long::class.java.classLoader) as? Long,
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readValue(Long::class.java.classLoader) as? Long,
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readValue(Int::class.java.classLoader) as? Int,
+		TODO("barcode"),
+		parcel.readValue(Int::class.java.classLoader) as? Int,
+		TODO("compareAtPrice"),
+		parcel.readString(),
+		parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+		TODO("weight"),
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readString(),
+		parcel.readValue(Int::class.java.classLoader) as? Int,
+		TODO("imageId")
+	)
+
+	override fun writeToParcel(parcel: Parcel, flags: Int) {
+		parcel.writeString(inventoryManagement)
+		parcel.writeValue(oldInventoryQuantity)
+		parcel.writeValue(requiresShipping)
+		parcel.writeString(createdAt)
+		parcel.writeString(title)
+		parcel.writeString(updatedAt)
+		parcel.writeValue(inventoryItemId)
+		parcel.writeString(price)
+		parcel.writeValue(productId)
+		parcel.writeString(option3)
+		parcel.writeString(option1)
+		parcel.writeValue(id)
+		parcel.writeString(option2)
+		parcel.writeString(sku)
+		parcel.writeValue(grams)
+		parcel.writeValue(inventoryQuantity)
+		parcel.writeString(fulfillmentService)
+		parcel.writeValue(taxable)
+		parcel.writeString(inventoryPolicy)
+		parcel.writeString(weightUnit)
+		parcel.writeString(adminGraphqlApiId)
+		parcel.writeValue(position)
+	}
+
+	override fun describeContents(): Int {
+		return 0
+	}
+
+	companion object CREATOR : Parcelable.Creator<VariantsItem> {
+		override fun createFromParcel(parcel: Parcel): VariantsItem {
+			return VariantsItem(parcel)
+		}
+
+		override fun newArray(size: Int): Array<VariantsItem?> {
+			return arrayOfNulls(size)
+		}
+	}
+}
