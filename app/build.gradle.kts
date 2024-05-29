@@ -7,6 +7,7 @@ plugins {
     id ("kotlin-kapt")
     id ("androidx.navigation.safeargs")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -178,6 +179,13 @@ dependencies {
     //curved bottom nav
     implementation ("com.github.qamarelsafadi:CurvedBottomNavigation:0.1.3")
 
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-storage")
+    //picasso
+    implementation ("com.squareup.picasso:picasso:2.8")
 }
 
 kapt{

@@ -154,5 +154,7 @@
     <string name="product_type">Product Category</string>
     <string name="add_some_pictures_to_product">Add Some Pictures to Product</string>
     <string name="add_some_varinats_to_products">Add Some Varinats To Products</string>
+    <string name="add_image">Add Image</string>
+    <string name="confirm">confirm</string>
 
 </resources>

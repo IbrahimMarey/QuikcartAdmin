@@ -38,43 +38,4 @@ data class ImagesItem(
 
 	@field:SerializedName("height")
 	val height: Int?
-) : Parcelable {
-	constructor(parcel: Parcel) : this(
-		parcel.readString(),
-		parcel.readString(),
-		parcel.readValue(Long::class.java.classLoader) as? Long,
-		parcel.readString(),
-		TODO("alt"),
-		parcel.readValue(Int::class.java.classLoader) as? Int,
-		parcel.readString(),
-		TODO("variantIds"),
-		parcel.readValue(Long::class.java.classLoader) as? Long,
-		parcel.readValue(Int::class.java.classLoader) as? Int,
-		parcel.readValue(Int::class.java.classLoader) as? Int
-	)
-	override fun writeToParcel(parcel: Parcel, flags: Int) {
-		parcel.writeString(updatedAt)
-		parcel.writeString(src)
-		parcel.writeValue(productId)
-		parcel.writeString(adminGraphqlApiId)
-		parcel.writeValue(width)
-		parcel.writeString(createdAt)
-		parcel.writeValue(id)
-		parcel.writeValue(position)
-		parcel.writeValue(height)
-	}
-
-	override fun describeContents(): Int {
-		return 0
-	}
-
-	companion object CREATOR : Parcelable.Creator<ImagesItem> {
-		override fun createFromParcel(parcel: Parcel): ImagesItem {
-			return ImagesItem(parcel)
-		}
-
-		override fun newArray(size: Int): Array<ImagesItem?> {
-			return arrayOfNulls(size)
-		}
-	}
-}
+)
