@@ -62,6 +62,7 @@ android {
 
 dependencies {
 
+    implementation(libs.firebase.auth.ktx)
     val robolectricVersion = ("4.5.1")
     val hamcrestVersion = ("1.3")
     val junitVersion = ("4.13.2")
@@ -184,6 +185,7 @@ dependencies {
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-storage")
+
     //picasso
     implementation ("com.squareup.picasso:picasso:2.8")
 }
