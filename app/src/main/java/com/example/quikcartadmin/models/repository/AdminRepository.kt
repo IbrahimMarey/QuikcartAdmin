@@ -2,8 +2,11 @@ package com.example.quikcartadmin.models.repository
 
 import com.example.quikcartadmin.models.entities.coupons.CouponsCountResponse
 import com.example.quikcartadmin.models.entities.inventory.InventoryCountResponse
+import com.example.quikcartadmin.models.entities.products.ProductBody
 import com.example.quikcartadmin.models.entities.products.ProductsCountResponse
 import com.example.quikcartadmin.models.entities.products.ProductsResponse
+import com.example.quikcartadmin.models.entities.products.SingleImageBody
+import com.example.quikcartadmin.models.entities.products.SingleImageResponse
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
 import com.example.quikcartadmin.models.remote.datasource.RemoteDataSourceImp
 import com.example.quikcartadmin.models.repository.IAdminRepository
@@ -37,5 +40,15 @@ class AdminRepository @Inject constructor(
         product: SingleProductsResponse
     ): SingleProductsResponse {
         return remoteDataSource.updateProduct(productId,product)
+    }
+
+    override suspend fun uploadImageToProduct(
+        productId: Long,
+        imageBody: SingleImageBody
+    ): SingleImageResponse {
+        return remoteDataSource.uploadImageToProduct(productId, imageBody)
+    }
+    override suspend fun createProduct(body: ProductBody): SingleProductsResponse {
+        return remoteDataSource.createProduct(body)
     }
 }

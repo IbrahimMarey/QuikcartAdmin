@@ -5,31 +5,38 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAddImagesBinding
 import com.example.quikcartadmin.helpers.FirebaseStorageHelper
 import com.example.quikcartadmin.helpers.GetTime
+import com.example.quikcartadmin.helpers.UiState
 import com.example.quikcartadmin.models.entities.products.ImagesItem
+import com.example.quikcartadmin.models.entities.products.SingleImage
+import com.example.quikcartadmin.models.entities.products.SingleImageBody
+import com.example.quikcartadmin.ui.products.createproduct.viewmodel.UploadImageViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddImagesFragment : Fragment() {
 
     private lateinit var imagesBinding: FragmentAddImagesBinding
     private lateinit var imagesAdapter: AddImagesAdapter
     private val args: AddImagesFragmentArgs by navArgs()
     private val firebaseStorageHelper = FirebaseStorageHelper()
+    private val uploadImageViewModel: UploadImageViewModel by viewModels()
     private var selectedImageUri: Uri? = null
     private var dialogImageView: ImageView? = null
     private var dialog: Dialog? = null
@@ -38,7 +45,6 @@ class AddImagesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         imagesBinding = FragmentAddImagesBinding.inflate(inflater, container, false)
         return imagesBinding.root
     }
@@ -50,6 +56,40 @@ class AddImagesFragment : Fragment() {
         imagesBinding.addImage.setOnClickListener {
             showAddImageDialog()
         }
+
+        lifecycleScope.launchWhenStarted {
+            uploadImageViewModel.uploadImageState.collect { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        // Show loading indicator if needed
+                    }
+                    is UiState.Success -> {
+                        val uploadedImage = state.data.image
+                        val currentImages = imagesAdapter.currentList.toMutableList()
+                        currentImages.add(
+                            ImagesItem(
+                                updatedAt = GetTime.getCurrentTime(),
+                                productId = uploadedImage?.productId,
+                                adminGraphqlApiId = null,
+                                alt = uploadedImage?.alt,
+                                width = uploadedImage?.width,
+                                createdAt = uploadedImage?.createdAt,
+                                variantIds = emptyList(),
+                                id = uploadedImage?.id,
+                                position = uploadedImage?.position,
+                                height = uploadedImage?.height,
+                                src = uploadedImage?.src
+                            )
+                        )
+                        imagesAdapter.submitList(currentImages)
+                        Toast.makeText(requireContext(), "Image Uploaded", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Failed -> {
+                        Toast.makeText(requireContext(), "Failed to upload image: ${state.msg}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpImagesRecyclerView() {
@@ -58,11 +98,10 @@ class AddImagesFragment : Fragment() {
         }
         imagesBinding.recyclerViewImages.layoutManager = GridLayoutManager(
             requireContext(),
-            3,
+            2,
             GridLayoutManager.VERTICAL,
             false
         )
-
         imagesBinding.recyclerViewImages.adapter = imagesAdapter
         imagesAdapter.submitList(args.productInfo?.images ?: emptyList())
     }
@@ -115,26 +154,18 @@ class AddImagesFragment : Fragment() {
         selectedImageUri?.let { uri ->
             firebaseStorageHelper.uploadImage(uri,
                 onSuccess = { imageUrl ->
-                    val currentImages = imagesAdapter.currentList.toMutableList()
-                    currentImages.add(
-                        ImagesItem(
-                            updatedAt = GetTime.getCurrentTime(),
-                            productId = null,
-                            adminGraphqlApiId = null,
+                    val productId = args.productInfo?.id ?: return@uploadImage
+                    val imageBody = SingleImageBody(
+                        image = SingleImage(
+                            width = 110,
+                            height = 140,
+                            position = 1,
                             alt = null,
-                            width = null,
-                            createdAt = null,
-                            variantIds = null,
-                            id = null,
-                            position = null,
-                            height = null,
-                            src = imageUrl
-                        ))
-
-                    imagesAdapter.submitList(currentImages)
-                    Log.i("TAG", "Link uploadImageToFirebase: $imageUrl")
-                    Toast.makeText(requireContext(), "Image Uploaded", Toast.LENGTH_SHORT).show()
-
+                            src = imageUrl,
+                            variantIds = emptyList()
+                        )
+                    )
+                    uploadImageViewModel.uploadImageToProduct(productId, imageBody)
                 },
                 onFailure = { exception ->
                     Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
@@ -144,6 +175,6 @@ class AddImagesFragment : Fragment() {
     }
 
     companion object {
-        private const val IMAGE_PICK_CODE = 1000
+        const val IMAGE_PICK_CODE = 1000
     }
 }

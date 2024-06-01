@@ -63,7 +63,7 @@
         <argument
             android:name="isCreated"
             app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
         <argument
             android:name="productInfo"
             app:argType="com.example.quikcartadmin.models.entities.products.ProductsItem"

@@ -3,6 +3,7 @@ package com.example.quikcartadmin.ui.products.createproduct.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quikcartadmin.helpers.UiState
+import com.example.quikcartadmin.models.entities.products.SingleImageBody
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
 import com.example.quikcartadmin.models.repository.IAdminRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,11 @@ class UpdateProductViewModel @Inject constructor(
                 _updateProductState.value = UiState.Failed(e)
             }
         }
+    }
+
+
+    fun uploadImageToProduct(productId: Long, imageBody: SingleImageBody){
+
     }
 
 }

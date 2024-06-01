@@ -1,5 +1,8 @@
 package com.example.quikcartadmin.models.remote.datasource
 
+import com.example.quikcartadmin.models.entities.products.ProductBody
+import com.example.quikcartadmin.models.entities.products.SingleImageBody
+import com.example.quikcartadmin.models.entities.products.SingleImageResponse
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
 import com.example.quikcartadmin.models.remote.webservices.CouponsWebServices
 import com.example.quikcartadmin.models.remote.webservices.InventoryWebServices
@@ -31,5 +34,13 @@ class RemoteDataSourceImp @Inject constructor(
 
     override suspend fun updateProduct(productId: Long, product: SingleProductsResponse): SingleProductsResponse {
         return productService.updateProduct(productId, product)
+    }
+
+    override suspend fun uploadImageToProduct(productId: Long, imageBody: SingleImageBody): SingleImageResponse {
+        return productService.uploadImageToProduct(productId, imageBody)
+    }
+
+    override suspend fun createProduct(body: ProductBody): SingleProductsResponse {
+        return productService.createProduct(body)
     }
 }

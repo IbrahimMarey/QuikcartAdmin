@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:elevation="2dp"
                 android:src="@drawable/ic_launcher_foreground"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -36,13 +35,14 @@
                 android:id="@+id/delete_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/delete"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/baseline_delete_24"
                 android:layout_margin="4dp"
+                android:contentDescription="@string/delete"
                 android:padding="2dp"
-                />
+                android:src="@drawable/baseline_delete_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/image_of_product_item"
+                app:layout_constraintTop_toTopOf="parent"
+          />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

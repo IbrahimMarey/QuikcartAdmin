@@ -1,41 +1,45 @@
 package com.example.quikcartadmin.models.entities.products
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-data class ImagesItem(
+data class SingleImageResponse(
+
+	@field:SerializedName("image")
+	val image: SingleImageRes? = null
+)
+
+data class SingleImageRes(
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String?,
+	val updatedAt: String? = null,
 
 	@field:SerializedName("src")
-	val src: String?,
+	val src: String? = null,
 
 	@field:SerializedName("product_id")
-	val productId: Long?,
+	val productId: Long? = null,
 
 	@field:SerializedName("admin_graphql_api_id")
-	val adminGraphqlApiId: String?,
+	val adminGraphqlApiId: Any? = null,
 
 	@field:SerializedName("alt")
-	val alt: Any?,
+	val alt: Any? = null,
 
 	@field:SerializedName("width")
-	val width: Int?,
+	val width: Int? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: String?,
+	val createdAt: String? = null,
 
 	@field:SerializedName("variant_ids")
-	val variantIds: List<String>?,
+	val variantIds: List<Any?>? = null,
 
 	@field:SerializedName("id")
-	val id: Long?,
+	val id: Long? = null,
 
 	@field:SerializedName("position")
-	val position: Int?,
+	val position: Int? = null,
 
 	@field:SerializedName("height")
-	val height: Int?
+	val height: Int? = null
 )
