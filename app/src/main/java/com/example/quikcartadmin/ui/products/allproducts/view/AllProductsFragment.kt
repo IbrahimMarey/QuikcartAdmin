@@ -2,6 +2,8 @@ package com.example.quikcartadmin.ui.products.allproducts.view
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,10 +21,12 @@ import com.example.quikcartadmin.models.entities.products.ProductsItem
 import com.example.quikcartadmin.ui.products.allproducts.viewmodel.AllProductsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 @AndroidEntryPoint
 class AllProductsFragment : Fragment() {
+    private lateinit var listOfProduct: List<ProductsItem>
     lateinit var proudctsBinding: FragmentAllProductsBinding
     private val allProductViewModel: AllProductsViewModel by viewModels()
     private lateinit var allProductAdapter: AllProductAdapter
@@ -42,6 +46,23 @@ class AllProductsFragment : Fragment() {
         proudctsBinding.addProduct.setOnClickListener {
             findNavController().navigate(R.id.action_all_products_to_createProductFragment)
         }
+
+
+        proudctsBinding.searchEd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val searchText = s.toString().toLowerCase(Locale.getDefault())
+                val filteredList = listOfProduct.filter {
+                    it.title?.toLowerCase(Locale.getDefault())!!.contains(searchText) ||
+                            it.productType?.toLowerCase(Locale.getDefault())!!.contains(searchText) ||
+                            it.vendor?.toLowerCase(Locale.getDefault())!!.contains(searchText)
+                }
+                allProductAdapter.submitList(filteredList)
+            }
+        })
     }
 
     private fun setUpRecyclerView(){
@@ -75,6 +96,7 @@ class AllProductsFragment : Fragment() {
                         proudctsBinding.productRecyclerView.visibility = View.VISIBLE
                         proudctsBinding.progressBar.visibility = View.GONE
                         allProductAdapter.submitList(uiState.data.products)
+                        listOfProduct = uiState.data.products
                     }
                     is UiState.Failed -> {
                         proudctsBinding.productRecyclerView.visibility = View.VISIBLE
