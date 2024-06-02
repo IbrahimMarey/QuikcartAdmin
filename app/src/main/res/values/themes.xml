@@ -21,4 +21,9 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="RoundedAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/rounded_dialog_background</item>
+    </style>
+
+
 </resources>

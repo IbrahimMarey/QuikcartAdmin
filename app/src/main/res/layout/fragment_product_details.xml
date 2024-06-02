@@ -32,8 +32,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/image_of_product_details"
-            android:layout_width="133dp"
-            android:layout_height="217dp"
+            android:layout_width="180dp"
+            android:layout_height="210dp"
             android:padding="8dp"
             android:layout_margin="16dp"
             app:cardCornerRadius="80dp"
@@ -72,7 +72,7 @@
             android:textColor="@color/white"
             android:textStyle="normal"
             android:textSize="16sp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_margin="24dp"
             app:layout_constraintStart_toEndOf="@+id/image_of_product_details"
             app:layout_constraintTop_toBottomOf="@id/product_title_details"

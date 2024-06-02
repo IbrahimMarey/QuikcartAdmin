@@ -21,7 +21,7 @@
         android:id="@+id/image_of_product_create"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/test_image"
+        android:src="@drawable/product"
         android:contentDescription="@string/products"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,36 +60,6 @@
 
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/value_input"
-        android:layout_width="0dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:textColor="@color/xd_red"
-        app:endIconTint="@color/xd_red"
-        app:shapeAppearance="@style/Rounded"
-        app:boxStrokeColor="@color/xd_red"
-        app:boxStrokeWidthFocused="2dp"
-        app:boxStrokeWidth="2dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/title_input"
-        app:layout_constraintEnd_toEndOf="@+id/title_input"
-        app:layout_constraintTop_toBottomOf="@+id/title_input">
-
-        <EditText
-            android:id="@+id/value_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints="name"
-            android:hint="@string/price"
-            android:inputType="number"
-            android:maxLength="40"
-            android:padding="20dp"
-            android:singleLine="true"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -105,9 +75,9 @@
         app:boxStrokeWidthFocused="2dp"
         app:boxStrokeWidth="2dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/value_input"
-        app:layout_constraintEnd_toEndOf="@+id/value_input"
-        app:layout_constraintTop_toBottomOf="@+id/value_input">
+        app:layout_constraintStart_toStartOf="@+id/title_input"
+        app:layout_constraintEnd_toEndOf="@+id/title_input"
+        app:layout_constraintTop_toBottomOf="@+id/title_input">
 
         <EditText
             android:id="@+id/vendor_et"
@@ -247,4 +217,4 @@
     android:layout_margin="16dp"
     android:layout_gravity="bottom" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

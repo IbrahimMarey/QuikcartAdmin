@@ -1,17 +1,24 @@
 package com.example.quikcartadmin.ui.products.createproduct.view
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -24,12 +31,13 @@ import com.example.quikcartadmin.models.entities.products.Image
 import com.example.quikcartadmin.models.entities.products.Product
 import com.example.quikcartadmin.models.entities.products.ProductBody
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
+import com.example.quikcartadmin.models.entities.products.VariantsItem
 import com.example.quikcartadmin.ui.products.createproduct.viewmodel.CreateProductViewModel
 import com.example.quikcartadmin.ui.products.createproduct.viewmodel.UpdateProductViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.random.Random
+
 
 @AndroidEntryPoint
 class CreateProductFragment : Fragment() {
@@ -40,6 +48,8 @@ class CreateProductFragment : Fragment() {
     private val createProductViewModel: CreateProductViewModel by viewModels()
     private val firebaseStorageHelper = FirebaseStorageHelper()
     private var imageUploadCallback: ((String?) -> Unit)? = null
+    private val variantsList = mutableListOf<VariantsItem>()
+    private var uploadedImageUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,26 +61,44 @@ class CreateProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createProductBinding.addImages.setOnClickListener {
-            val action = CreateProductFragmentDirections.actionCreateProductFragmentToAddImagesFragment()
-            action.setProductInfo(args.productInfo)
-            findNavController().navigate(action)
+
+        createProductBinding.imageOfProductCreate.setOnClickListener {
+            pickImageForUpload { imageUrl ->
+                if (imageUrl != null) {
+                    Log.i("TAG", "after selected ${imageUrl}")
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.product)
+                        .error(R.drawable.ic_close)
+                        .into(createProductBinding.imageOfProductCreate)
+                }
+            }
         }
 
-        createProductBinding.addVaranint.setOnClickListener {
-            val action = CreateProductFragmentDirections.actionCreateProductFragmentToAddVariantFragment()
-            action.setProductsItem(args.productInfo)
-            findNavController().navigate(action)
-        }
 
         if (args.isCreated){
             createProductBinding.editProductBtn.setText("Update Product")
+            createProductBinding.addImages.setOnClickListener {
+                val action = CreateProductFragmentDirections.actionCreateProductFragmentToAddImagesFragment()
+                action.setProductInfo(args.productInfo)
+                findNavController().navigate(action)
+            }
+
+            createProductBinding.addVaranint.setOnClickListener {
+                val action = CreateProductFragmentDirections.actionCreateProductFragmentToAddVariantFragment()
+                action.setProductsItem(args.productInfo)
+                findNavController().navigate(action)
+            }
             setUpdatingArgsInUi()
 
         }else if (args.isCreated == false){
             createProductBinding.editProductBtn.setText("Create Product")
-            createProductBinding.addImages.isEnabled = false
-            createProductBinding.addVaranint.isEnabled = false
+            createProductBinding.addImages.setOnClickListener {
+
+            }
+            createProductBinding.addVaranint.setOnClickListener {
+                showInputDialogToAddVariant(option1 = "", option2 = "", price = 0)
+            }
         }
 
         createProductBinding.editProductBtn.setOnClickListener {
@@ -87,15 +115,21 @@ class CreateProductFragment : Fragment() {
             }
         }
 
-        val categoryTextView = createProductBinding.categoryEt
-        val vendorTextView = createProductBinding.vendorEt
-
-        categoryTextView.setOnClickListener { showCategoryPopupMenu(categoryTextView) }
-        vendorTextView.setOnClickListener { showVendorPopupMenu(vendorTextView) }
+        createProductBinding.categoryEt.setOnClickListener { showCategoryPopupMenu(createProductBinding.categoryEt) }
+        createProductBinding.vendorEt.setOnClickListener { showVendorPopupMenu(createProductBinding.vendorEt) }
 
     }
 
     private fun createProductObservation() {
+        if (uploadedImageUrl == null) {
+            Toast.makeText(requireContext(), "Please upload an image", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (variantsList.isEmpty()) {
+            Toast.makeText(requireContext(), "Please add at least one variant", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         uploadImageAndCreateProduct {productBody ->
             lifecycleScope.launchWhenStarted {
@@ -107,6 +141,7 @@ class CreateProductFragment : Fragment() {
                         is UiState.Success -> {
                             // Handle success state
                             createProductBinding.progressBar.visibility = View.GONE
+                            findNavController().popBackStack()
                             Toast.makeText(requireContext(), "Product Created Successfully", Toast.LENGTH_SHORT).show()
                         }
                         is UiState.Failed -> {
@@ -124,10 +159,15 @@ class CreateProductFragment : Fragment() {
         }
     }
 
-    fun uploadImageAndCreateProduct(callback: (ProductBody?) -> Unit) {
+    private fun uploadImageAndCreateProduct(callback: (ProductBody?) -> Unit) {
         pickImageForUpload { imageUrl ->
             if (imageUrl != null) {
-                createProductWithImage(imageUrl) { productBody ->
+                uploadedImageUrl = imageUrl
+                val srcPart = imageUrl.substringAfter("src=")
+                val srcUrl = srcPart.substringBefore(", ")
+
+                Log.i("TAG", "when click ${srcUrl}")
+                createProductWithImage(srcUrl) { productBody ->
                     callback(productBody)
                 }
             } else {
@@ -141,35 +181,38 @@ class CreateProductFragment : Fragment() {
 
         val title = createProductBinding.titleEt.text.toString()
         val description = createProductBinding.descriptionEt.text.toString()
-        val price = createProductBinding.valueEt.text.toString().toDoubleOrNull()
         val category = createProductBinding.categoryEt.text.toString()
         val vendor = createProductBinding.vendorEt.text.toString()
 
-        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty() || price == null) {
+        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
             Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             callback(null)
             return
         }
 
+        val productId =  Random.nextLong()
+        val image_id = Random.nextLong()
+        Log.i("TAG", "upload ${imageUrl}")
+        Log.i("TAG", "upload ${productId}")
         val product = Product(
             image = Image(
                 updatedAt = GetTime.getCurrentTime(),
                 src = imageUrl,
-                productId = null,
-                adminGraphqlApiId = null,
+                productId = productId,
+                adminGraphqlApiId = "gid://shopify/ProductImage/${image_id}",
                 alt = null,
-                width = null,
+                width = 123,
                 createdAt = GetTime.getCurrentTime(),
                 variantIds = null,
-                id = null,
-                position = null,
-                height = null
+                id = image_id,
+                position = 1,
+                height = 459
             ),
             bodyHtml = description,
             images = emptyList(),
             createdAt = GetTime.getCurrentTime(),
             handle = "burton-custom-freestyle-151",
-            variants = emptyList(),
+            variants = variantsList,
             title = title,
             tags = "",
             publishedScope = "",
@@ -177,76 +220,16 @@ class CreateProductFragment : Fragment() {
             templateSuffix = "",
             updatedAt = GetTime.getCurrentTime(),
             vendor = vendor,
-            adminGraphqlApiId = "",
+            adminGraphqlApiId = "gid://shopify/Product/${productId}",
             options = emptyList(),
-            id = Random.nextLong(),
+            id = productId,
             publishedAt = "",
             status = "draft"
-
         )
 
         val productBody = ProductBody(product)
 
         callback(productBody)
-    }
-
-    private fun setProductValues(callback: (ProductBody) -> Unit) {
-        val title = createProductBinding.titleEt.text.toString()
-        val description = createProductBinding.descriptionEt.text.toString()
-        val price = createProductBinding.valueEt.text.toString().toDoubleOrNull()
-        val category = createProductBinding.categoryEt.text.toString()
-        val vendor = createProductBinding.vendorEt.text.toString()
-
-
-        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty() || price == null) {
-            Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        pickImageForUpload { imageUrl ->
-            if (imageUrl != null) {
-                Toast.makeText(requireContext(), "Image uploaded: $imageUrl", Toast.LENGTH_SHORT).show()
-
-                val product = Product(
-                    image = Image(
-                        updatedAt = GetTime.getCurrentTime(),
-                        src = imageUrl,
-                        productId = null,
-                        adminGraphqlApiId = null,
-                        alt = null,
-                        width = null,
-                        createdAt = GetTime.getCurrentTime(),
-                        variantIds = null,
-                        id = null,
-                        position = null,
-                        height = null
-                    ),
-                    bodyHtml = description,
-                    images = emptyList(),
-                    createdAt = GetTime.getCurrentTime(),
-                    handle = "burton-custom-freestyle-151",
-                    variants = emptyList(),
-                    title = title,
-                    tags = "",
-                    publishedScope = "",
-                    productType = category,
-                    templateSuffix = "",
-                    updatedAt = GetTime.getCurrentTime(),
-                    vendor = vendor,
-                    adminGraphqlApiId = "",
-                    options = emptyList(),
-                    id = Random.nextLong(),
-                    publishedAt = "",
-                    status = "draft"
-                )
-
-                val productBody = ProductBody(product)
-                callback(productBody)
-
-            } else {
-                Toast.makeText(requireContext(), "Image upload failed", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
 
@@ -260,6 +243,7 @@ class CreateProductFragment : Fragment() {
                     is UiState.Success -> {
                         Toast.makeText(requireContext(), "Updating successfully", Toast.LENGTH_SHORT).show()
                         createProductBinding.progressBar.visibility = View.GONE
+                        findNavController().popBackStack()
                     }
                     is UiState.Failed -> {
                         //error state
@@ -279,9 +263,8 @@ class CreateProductFragment : Fragment() {
         val description = createProductBinding.descriptionEt.text.toString()
         val category = createProductBinding.categoryEt.text.toString()
         val vendor = createProductBinding.vendorEt.text.toString()
-        val price = createProductBinding.valueEt.text.toString().toDoubleOrNull()
 
-        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty() || price == null) {
+        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
             Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             return null
         }
@@ -294,7 +277,7 @@ class CreateProductFragment : Fragment() {
             bodyHtml = description,
             productType = category,
             vendor = vendor,
-            variants = updatingProduct?.variants?.map { it.copy(price = price.toString()) } ?: emptyList(),
+            variants = variantsList,
 
             image = updatingProduct?.image ?: Image(
                 updatedAt = GetTime.getCurrentTime(),
@@ -332,7 +315,6 @@ class CreateProductFragment : Fragment() {
         createProductBinding.descriptionEt.setText(updatingProduct?.bodyHtml)
         createProductBinding.categoryEt.setText(updatingProduct?.productType)
         createProductBinding.vendorEt.setText(updatingProduct?.vendor)
-        createProductBinding.valueEt.setText(updatingProduct?.variants?.get(0)?.price)
 
         val imageUrl = updatingProduct?.image?.src ?: "https://cdn.shopify.com/s/files/1/0703/5830/2955/files/8cd561824439482e3cea5ba8e3a6e2f6.jpg?v=1716233144"
         Glide.with(requireContext())
@@ -343,11 +325,17 @@ class CreateProductFragment : Fragment() {
     }
 
     fun pickImageForUpload(callback: (String?) -> Unit) {
-        imageUploadCallback = callback
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
+        if (uploadedImageUrl.isNullOrEmpty()) {
+            imageUploadCallback = callback
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = "image/*"
+            }
+            startActivityForResult(intent, IMAGE_PICK_CODE)
+        } else {
+            createProductWithImage(uploadedImageUrl!!) { productBody ->
+                callback(productBody?.toString())
+            }
         }
-        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -357,6 +345,8 @@ class CreateProductFragment : Fragment() {
             selectedImageUri?.let { uri ->
                 firebaseStorageHelper.uploadImage(uri,
                     onSuccess = { imageUrl ->
+                        uploadedImageUrl = imageUrl
+                        Log.i("TAG", "${imageUrl}")
                         imageUploadCallback?.invoke(imageUrl)
                     },
                     onFailure = { exception ->
@@ -370,8 +360,9 @@ class CreateProductFragment : Fragment() {
             }
         }
     }
+
     companion object {
-        const val IMAGE_PICK_CODE = 1001
+        const val IMAGE_PICK_CODE = 1003
     }
 
 
@@ -414,5 +405,82 @@ class CreateProductFragment : Fragment() {
 
         popupMenu.show()
     }
+
+
+    private fun showInputDialogToAddVariant(option1: String, option2: String, price: Int) {
+        val layout = LinearLayout(requireContext())
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(16, 16, 16, 16)
+        layout.elevation = 2F
+
+        val option1Input = EditText(requireContext())
+        option1Input.hint = "Enter Size"
+        option1Input.setText(option1)
+        layout.addView(option1Input)
+
+        val option2Input = EditText(requireContext())
+        option2Input.hint = "Enter Color"
+        option2Input.setText(option2)
+        layout.addView(option2Input)
+
+        val priceInput = EditText(requireContext())
+        priceInput.hint = "Enter price"
+        priceInput.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        priceInput.setText(price.toString())
+        layout.addView(priceInput)
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext(), R.style.RoundedAlertDialogStyle)
+        builder.setTitle("Add Variant")
+            .setView(layout)
+            .setPositiveButton("OK") { dialog, which ->
+                val _option1 = option1Input.text.toString()
+                val _option2 = option2Input.text.toString()
+                val _price = priceInput.text.toString().toIntOrNull() ?: 0
+
+                val variantsId = Random.nextLong()
+                val variantItem = VariantsItem(
+                    id = variantsId,
+                    product_id = 0L,
+                    title = "$_option1 / $_option2",
+                    price = _price.toString(),
+                    sku = "",
+                    position = variantsList.size + 1,
+                    inventory_policy = "deny",
+                    compare_at_price = null,
+                    fulfillment_service = "manual",
+                    inventory_management = "shopify",
+                    option1 = _option1,
+                    option2 = _option2,
+                    option3 = null,
+                    created_at = GetTime.getCurrentTime(),
+                    updated_at = GetTime.getCurrentTime(),
+                    taxable = true,
+                    barcode = null,
+                    grams = 0,
+                    weight = 0.0,
+                    weight_unit = "kg",
+                    inventory_item_id = 47449209635051,
+                    inventory_quantity = 9,
+                    old_inventory_quantity = 9,
+                    requires_shipping = true,
+                    admin_graphql_api_id = "gid://shopify/ProductVariant/${variantsId}",
+                    image_id = null
+                )
+
+                variantsList.add(variantItem)
+                Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
+            }
+                .setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.xd_dark_pink))
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.xd_dark_pink))
+        }
+
+        alertDialog.show()
+    }
+
+
 
 }
