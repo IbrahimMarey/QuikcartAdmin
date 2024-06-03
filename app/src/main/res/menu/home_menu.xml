@@ -13,7 +13,7 @@
         />
     <item
         android:title="@string/coupons"
-        android:id="@+id/all_coupons"
+        android:id="@+id/allRulesFragment"
         android:icon="@drawable/ic_coupons"
         />
     <item

@@ -12,14 +12,10 @@ import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(
     private val productService: ProductsWebServices,
-    private val couponsWebServices: CouponsWebServices,
     private val inventoryWebServices: InventoryWebServices
     ): IRemoteDataSource {
     override fun getCountOfProducts() = flow {
         emit(productService.getCountOfProducts())
-    }
-    override fun getCountOfCoupons() = flow {
-        emit(couponsWebServices.getCountOfCoupons())
     }
     override fun getCountOfInventory() = flow {
         emit(inventoryWebServices.getCountOfInventory())

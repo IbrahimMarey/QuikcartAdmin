@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private val HOME_ITEM = R.id.home
     private val PRODUCTS_ITEM = R.id.all_products
-    private val COUPONS_ITEM = R.id.all_coupons
+    private val COUPONS_ITEM = R.id.allRulesFragment
     private val PROFILE_ITEM = R.id.profile
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         // Set the visibility of the bottom navigation to GONE
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id != R.id.home && destination.id != R.id.all_products &&
-                destination.id != R.id.all_coupons && destination.id != R.id.profile) {
+                destination.id != R.id.allRulesFragment && destination.id != R.id.profile) {
                 binding.bottomNavigation.gone()
             } else {
                 binding.bottomNavigation.visible()

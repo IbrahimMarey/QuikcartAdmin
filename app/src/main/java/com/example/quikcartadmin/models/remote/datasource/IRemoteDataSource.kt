@@ -11,9 +11,7 @@ import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
 import kotlinx.coroutines.flow.Flow
 
 interface IRemoteDataSource {
-    fun getCountOfProducts(): Flow<ProductsCountResponse>
-    fun getCountOfCoupons(): Flow<CouponsCountResponse>
-    fun getCountOfInventory(): Flow<InventoryCountResponse>
+    fun getCountOfProducts(): Flow<ProductsCountResponse>fun getCountOfInventory(): Flow<InventoryCountResponse>
     fun getAllProducts(): Flow<ProductsResponse>
     suspend fun deleteProduct(productId: Long?)
     suspend fun updateProduct(productId: Long, product: SingleProductsResponse): SingleProductsResponse

@@ -27,9 +27,20 @@
 
     <fragment
         android:id="@+id/all_coupons"
-        android:name="com.example.quikcartadmin.ui.coupons.AllCouponsFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.alldiscounts.view.AllDiscountsFragment"
         android:label="Coupons"
-        tools:layout="@layout/fragment_all_coupons" />
+        tools:layout="@layout/fragment_all_discounts" >
+        <action
+            android:id="@+id/action_all_coupons_to_createDiscountFragment"
+            app:destination="@id/createDiscountFragment" />
+        <action
+            android:id="@+id/action_all_coupons_to_updateDiscountFragment"
+            app:destination="@id/updateDiscountFragment" />
+        <argument
+            android:name="priceRule"
+            app:argType="com.example.quikcartadmin.models.entities.coupons.PriceRule"
+             />
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
@@ -91,6 +102,50 @@
             app:nullable="true"
             android:defaultValue="@null"
             />
+    </fragment>
+    <fragment
+        android:id="@+id/allRulesFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.allrulesprice.view.AllRulesFragment"
+        android:label="fragment_all_rules"
+        tools:layout="@layout/fragment_all_rules">
+        <action
+            android:id="@+id/action_allRulesFragment_to_all_coupons"
+            app:destination="@id/all_coupons" />
+        <action
+            android:id="@+id/action_allRulesFragment_to_createRulePriceFragment"
+            app:destination="@id/createRulePriceFragment" />
+        <action
+            android:id="@+id/action_allRulesFragment_to_updateRulePriceFragment"
+            app:destination="@id/updateRulePriceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createDiscountFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.creatediscount.view.CreateDiscountFragment"
+        android:label="fragment_create_discount"
+        tools:layout="@layout/fragment_create_discount" />
+
+    <fragment
+        android:id="@+id/createRulePriceFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.createrule.view.CreateRulePriceFragment"
+        android:label="fragment_create_rule_price"
+        tools:layout="@layout/fragment_create_rule_price" />
+
+    <fragment
+        android:id="@+id/updateDiscountFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.updatediscount.view.UpdateDiscountFragment"
+        android:label="fragment_update_discount"
+        tools:layout="@layout/fragment_update_discount" />
+
+    <fragment
+        android:id="@+id/updateRulePriceFragment"
+        android:name="com.example.quikcartadmin.ui.coupons.updaterule.view.UpdateRulePriceFragment"
+        android:label="fragment_update_rule_price"
+        tools:layout="@layout/fragment_update_rule_price">
+
+        <argument
+            android:name="priceRule"
+            app:argType="com.example.quikcartadmin.models.entities.coupons.PriceRule" />
     </fragment>
 
 </navigation>

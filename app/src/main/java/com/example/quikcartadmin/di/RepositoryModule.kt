@@ -1,5 +1,6 @@
 package com.example.quikcartadmin.di
 
+import com.example.quikcartadmin.models.remote.datasource.CouponsDataSource
 import com.example.quikcartadmin.models.repository.AdminRepository
 import com.example.quikcartadmin.models.remote.datasource.RemoteDataSourceImp
 import com.example.quikcartadmin.models.repository.IAdminRepository
@@ -16,8 +17,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun adminRepositoryProvider(remoteDataSource: RemoteDataSourceImp
+    fun adminRepositoryProvider(
+        remoteDataSource: RemoteDataSourceImp,
+        couponsDataSource: CouponsDataSource
     ) : IAdminRepository{
-        return AdminRepository(remoteDataSource)
+        return AdminRepository(remoteDataSource, couponsDataSource)
     }
 }
