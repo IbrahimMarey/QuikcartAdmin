@@ -17,12 +17,10 @@ object Constants {
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(false)
         builder.setView(R.layout.loading_dialog)
-
         return builder.create()
     }
 
     fun buildDate(strDate : String) : Date?{
-        //val dtStart = "05-11-2017 05:42:00"
         val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
         try {
             return format.parse(strDate)

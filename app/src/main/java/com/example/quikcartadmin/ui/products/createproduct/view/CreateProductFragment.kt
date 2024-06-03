@@ -3,12 +3,15 @@ package com.example.quikcartadmin.ui.products.createproduct.view
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupMenu
@@ -50,6 +53,8 @@ class CreateProductFragment : Fragment() {
     private var imageUploadCallback: ((String?) -> Unit)? = null
     private val variantsList = mutableListOf<VariantsItem>()
     private var uploadedImageUrl: String? = null
+    private var vendorType = ""
+    private var categoryType = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +65,6 @@ class CreateProductFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         createProductBinding.imageOfProductCreate.setOnClickListener {
             pickImageForUpload { imageUrl ->
@@ -114,10 +118,10 @@ class CreateProductFragment : Fragment() {
                 createProductObservation()
             }
         }
-
-        createProductBinding.categoryEt.setOnClickListener { showCategoryPopupMenu(createProductBinding.categoryEt) }
-        createProductBinding.vendorEt.setOnClickListener { showVendorPopupMenu(createProductBinding.vendorEt) }
-
+        setupMenuVendor()
+        setupMenuCategory()
+        handleSelectedTypeValue()
+        handleSelectedTypeCateogry()
     }
 
     private fun createProductObservation() {
@@ -181,8 +185,8 @@ class CreateProductFragment : Fragment() {
 
         val title = createProductBinding.titleEt.text.toString()
         val description = createProductBinding.descriptionEt.text.toString()
-        val category = createProductBinding.categoryEt.text.toString()
-        val vendor = createProductBinding.vendorEt.text.toString()
+        val category = categoryType
+        val vendor = vendorType
 
         if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
             Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
@@ -365,48 +369,6 @@ class CreateProductFragment : Fragment() {
         const val IMAGE_PICK_CODE = 1003
     }
 
-
-    private fun showCategoryPopupMenu(anchorView: View) {
-        val popupMenu = PopupMenu(requireContext(), anchorView)
-        popupMenu.menuInflater.inflate(R.menu.category_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.accessories -> createProductBinding.categoryEt.setText("ACCESSORIES")
-                R.id.shoes -> createProductBinding.categoryEt.setText("SHOES")
-                R.id.tshirts -> createProductBinding.categoryEt.setText("T-SHIRTS")
-            }
-            true
-        }
-
-        popupMenu.show()
-    }
-
-
-    private fun showVendorPopupMenu(anchorView: View) {
-        val popupMenu = PopupMenu(requireContext(), anchorView)
-        popupMenu.menuInflater.inflate(R.menu.vendor_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.vans -> createProductBinding.vendorEt.setText("VANS")
-                R.id.puma -> createProductBinding.vendorEt.setText("PUMA")
-                R.id.timberland -> createProductBinding.vendorEt.setText("TIMBERLAND")
-                R.id.supra -> createProductBinding.vendorEt.setText("SUPRA")
-                R.id.nike -> createProductBinding.vendorEt.setText("NIKE")
-                R.id.palladium -> createProductBinding.vendorEt.setText("PALLADIUM")
-                R.id.herschel -> createProductBinding.vendorEt.setText("HERSCHEL")
-                R.id.flexfit -> createProductBinding.vendorEt.setText("FLEX FIT")
-                R.id.drmartens -> createProductBinding.vendorEt.setText("Dr. Martens")
-                R.id.adidas -> createProductBinding.vendorEt.setText("Adidas")
-                R.id.asicstiger -> createProductBinding.vendorEt.setText("Asics Tiger")
-                R.id.converse -> createProductBinding.vendorEt.setText("Converse")
-            }
-            true
-        }
-
-        popupMenu.show()
-    }
-
-
     private fun showInputDialogToAddVariant(option1: String, option2: String, price: Int) {
         val layout = LinearLayout(requireContext())
         layout.orientation = LinearLayout.VERTICAL
@@ -482,5 +444,60 @@ class CreateProductFragment : Fragment() {
     }
 
 
+    private fun setupMenuVendor() {
+        val valueTypeList =
+            listOf(
+                "VANS",
+                "PUMA",
+                "TIMBERLAND",
+                "SUPRA",
+                "NIKE",
+                "PALLADIUM",
+                "HERSCHEL",
+                "FLEX FIT",
+                "DR. MARTENS",
+                "ADIDAS",
+                "CONVERSE",
+                "ASICS TIGER"
+                )
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, R.id.text1,valueTypeList)
 
+        createProductBinding.vendorEt.threshold = 1
+        createProductBinding.vendorEt.setAdapter(adapter)
+        createProductBinding.vendorEt.setTextColor(Color.BLACK)
+    }
+
+
+    private fun handleSelectedTypeValue() {
+        createProductBinding.vendorEt.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
+                vendorType = parent.getItemAtPosition(position).toString()
+            }
+    }
+
+
+
+    private fun setupMenuCategory() {
+        val valueTypeList =
+            listOf(
+                "ACCESSORIES",
+                "T-SHIRTS",
+                "SHOES"
+            )
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, R.id.text1,valueTypeList)
+
+        createProductBinding.categoryEt.threshold = 1
+        createProductBinding.categoryEt.setAdapter(adapter)
+        createProductBinding.categoryEt.setTextColor(Color.BLACK)
+    }
+
+
+    private fun handleSelectedTypeCateogry() {
+        createProductBinding.categoryEt.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
+                vendorType = parent.getItemAtPosition(position).toString()
+            }
+    }
 }

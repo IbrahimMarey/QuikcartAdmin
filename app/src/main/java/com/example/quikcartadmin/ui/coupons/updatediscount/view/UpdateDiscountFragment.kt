@@ -84,7 +84,6 @@ class UpdateDiscountFragment : DialogFragment() {
             viewModel.updateDiscountState.collectLatest {
                 when (it) {
                     is UiState.Loading -> {
-                        alertDialog.show()
                     }
                     is UiState.Success -> {
                         alertDialog.dismiss()

@@ -79,7 +79,7 @@ class CreateDiscountFragment : DialogFragment() {
             viewModel.createDiscountState.collectLatest {
                 when (it) {
                     is UiState.Loading -> {
-                        alertDialog.show()
+
                     }
                     is UiState.Success -> {
                         alertDialog.dismiss()
@@ -88,7 +88,7 @@ class CreateDiscountFragment : DialogFragment() {
                             .show()
                         dismiss()
                     }
-                    else -> {
+                    is UiState.Failed -> {
                         alertDialog.dismiss()
                         Toast.makeText(requireActivity(), "Creation failed", Toast.LENGTH_LONG)
                             .show()
