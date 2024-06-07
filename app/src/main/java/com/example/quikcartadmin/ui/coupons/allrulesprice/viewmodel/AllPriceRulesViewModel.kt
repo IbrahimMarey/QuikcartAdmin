@@ -26,9 +26,6 @@ class AllPriceRulesViewModel @Inject constructor(
     )
     var deleteRuleState: StateFlow<UiState<String>> = _deleteRuleState
 
-    init {
-        getPriceRules()
-    }
     fun getPriceRules() {
         viewModelScope.launch {
             try {

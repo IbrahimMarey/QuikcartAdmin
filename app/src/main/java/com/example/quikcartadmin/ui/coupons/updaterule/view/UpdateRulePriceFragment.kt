@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import com.example.quikcartadmin.databinding.FragmentUpdateRulePriceBinding
 import com.example.quikcartadmin.helpers.Constants
 import com.example.quikcartadmin.helpers.UiState
@@ -119,7 +120,7 @@ class UpdateRulePriceFragment : Fragment() {
                         alertDialog.dismiss()
                         Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
                             .show()
-                        Navigation.findNavController(updateRulePriceBinding.root).popBackStack()
+                        findNavController().popBackStack()
                     }
                     is UiState.Failed -> {
                         alertDialog.dismiss()

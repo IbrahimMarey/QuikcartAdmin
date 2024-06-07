@@ -188,7 +188,7 @@ class CreateProductFragment : Fragment() {
         val category = categoryType
         val vendor = vendorType
 
-        if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
+        if (title.isEmpty() || description.isEmpty()) {
             Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             callback(null)
             return
@@ -497,7 +497,7 @@ class CreateProductFragment : Fragment() {
     private fun handleSelectedTypeCateogry() {
         createProductBinding.categoryEt.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, _ ->
-                vendorType = parent.getItemAtPosition(position).toString()
+                categoryType = parent.getItemAtPosition(position).toString()
             }
     }
 }

@@ -81,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints="name"
-            android:hint="@string/code"
-            android:inputType="text"
+            android:hint="@string/price"
+            android:inputType="number"
             android:maxLength="40"
             android:padding="20dp"
             android:singleLine="true"
@@ -97,7 +97,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="16dp"
         android:hint="@string/value_type"
         app:boxBackgroundMode="outline"
@@ -105,7 +104,7 @@
         app:errorEnabled="true"
         app:hintTextColor="@color/xd_dark_burgundy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/value_input">
+        app:layout_constraintTop_toBottomOf="@id/endsAt_textLayout">
 
         <AutoCompleteTextView
             android:id="@+id/valueType_editText"
@@ -125,15 +124,15 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="10dp"
         android:hint="@string/start_date"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/xd_dark_burgundy"
         app:errorEnabled="true"
+        android:layout_marginTop="16dp"
         app:hintTextColor="@color/xd_dark_burgundy"
         app:startIconDrawable="@drawable/baseline_calendar_month_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout">
+        app:layout_constraintTop_toBottomOf="@id/value_input">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/startAt_editText"
@@ -155,10 +154,11 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/xd_dark_burgundy"
         app:errorEnabled="true"
+        android:layout_marginTop="16dp"
         app:hintTextColor="@color/xd_dark_burgundy"
         app:startIconDrawable="@drawable/baseline_access_time_24"
         app:layout_constraintStart_toEndOf="@id/startAt_textLayout"
-        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout">
+        app:layout_constraintTop_toBottomOf="@id/value_input">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/startTime_editText"
@@ -175,7 +175,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="10dp"
         android:hint="@string/end_date"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/xd_dark_burgundy"
@@ -200,7 +199,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
         android:hint="@string/time"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/xd_dark_burgundy"
@@ -233,7 +231,7 @@
         android:layout_marginBottom="15dp"
         android:backgroundTint="@color/xd_dark_burgundy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/endsAt_textLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout"/>
 
 
 

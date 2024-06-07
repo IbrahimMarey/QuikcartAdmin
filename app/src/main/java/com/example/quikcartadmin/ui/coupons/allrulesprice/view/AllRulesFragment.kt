@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAllRulesBinding
@@ -24,14 +26,16 @@ class AllRulesFragment : Fragment() {
     private lateinit var rulesBinding: FragmentAllRulesBinding
 
     private lateinit var rulesAdapter: RulesAdapter
-    private var rulesList: List<PriceRule> = ArrayList()
-
     private val viewModel: AllPriceRulesViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         rulesBinding = FragmentAllRulesBinding.inflate(inflater, container, false)
+
+        setUpRecyclerView()
+        observeGetAllPriceRules()
+
         return rulesBinding.root
     }
 
@@ -40,14 +44,16 @@ class AllRulesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rulesBinding.addFloatingBtn.setOnClickListener {
-            Navigation.findNavController(rulesBinding.root).navigate(R.id.createRulePriceFragment)
+            findNavController().navigate(R.id.createRulePriceFragment)
         }
 
-        setUpRecyclerView()
-        observeGetAllPriceRules()
+      //  setUpRecyclerView()
+      //  observeGetAllPriceRules()
     }
 
     private fun observeGetAllPriceRules() {
+        viewModel.getPriceRules()
+
         lifecycleScope.launch {
             viewModel.ruleState.collectLatest {
                 when (it) {
@@ -56,8 +62,7 @@ class AllRulesFragment : Fragment() {
                     }
                     is UiState.Success -> {
                         rulesBinding.progressbar.visibility = View.GONE
-                        rulesList = it.data
-                        rulesAdapter.submitList(rulesList)
+                        rulesAdapter.submitList(it.data)
                     }
                     else -> {
                         rulesBinding.progressbar.visibility = View.GONE
@@ -69,7 +74,7 @@ class AllRulesFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         rulesAdapter = RulesAdapter{
-            viewModel.deletePriceRule(it.id!!)
+            handleDeleteAction(it.id!!)
         }
 
         rulesBinding.rulesRecyclerView.apply {
@@ -78,5 +83,19 @@ class AllRulesFragment : Fragment() {
         }
     }
 
+    private fun handleDeleteAction(id : Long){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Discount")
+            .setMessage("Are you sure you want to delete this Price Rule ?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                viewModel.deletePriceRule(id)
+                viewModel.getPriceRules()
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(R.drawable.baseline_add_alert_24)
+            .show()
+    }
 
 }
