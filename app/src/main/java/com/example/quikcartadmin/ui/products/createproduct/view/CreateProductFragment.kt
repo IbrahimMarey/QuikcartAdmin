@@ -281,7 +281,7 @@ class CreateProductFragment : Fragment() {
             bodyHtml = description,
             productType = category,
             vendor = vendor,
-            variants = variantsList,
+            variants = updatingProduct?.variants ?: emptyList(),
 
             image = updatingProduct?.image ?: Image(
                 updatedAt = GetTime.getCurrentTime(),
