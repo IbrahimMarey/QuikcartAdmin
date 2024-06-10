@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +23,19 @@ import com.example.quikcartadmin.databinding.FragmentAddImagesBinding
 import com.example.quikcartadmin.helpers.FirebaseStorageHelper
 import com.example.quikcartadmin.helpers.GetTime
 import com.example.quikcartadmin.helpers.UiState
+import com.example.quikcartadmin.models.entities.products.Image
 import com.example.quikcartadmin.models.entities.products.ImagesItem
+import com.example.quikcartadmin.models.entities.products.Product
 import com.example.quikcartadmin.models.entities.products.SingleImage
 import com.example.quikcartadmin.models.entities.products.SingleImageBody
+import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
+import com.example.quikcartadmin.models.entities.products.VariantsItem
+import com.example.quikcartadmin.ui.products.createproduct.viewmodel.UpdateProductViewModel
 import com.example.quikcartadmin.ui.products.createproduct.viewmodel.UploadImageViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class AddImagesFragment : Fragment() {
@@ -40,6 +48,9 @@ class AddImagesFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private var dialogImageView: ImageView? = null
     private var dialog: Dialog? = null
+
+    private var imagesList = mutableListOf<ImagesItem>()
+    private val updateProductViewModel: UpdateProductViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +68,12 @@ class AddImagesFragment : Fragment() {
             showAddImageDialog()
         }
 
+        observationUploadImage()
+    }
+
+
+    private fun observationUploadImage(){
+
         lifecycleScope.launchWhenStarted {
             uploadImageViewModel.uploadImageState.collect { state ->
                 when (state) {
@@ -70,7 +87,7 @@ class AddImagesFragment : Fragment() {
                             ImagesItem(
                                 updatedAt = GetTime.getCurrentTime(),
                                 productId = uploadedImage?.productId,
-                                adminGraphqlApiId = null,
+                                adminGraphqlApiId = uploadedImage?.adminGraphqlApiId.toString(),
                                 alt = uploadedImage?.alt,
                                 width = uploadedImage?.width,
                                 createdAt = uploadedImage?.createdAt,
@@ -85,6 +102,7 @@ class AddImagesFragment : Fragment() {
                         Toast.makeText(requireContext(), "Image Uploaded", Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Failed -> {
+                        Log.i("TAG", "onViewCreated: ${state.msg}")
                         Toast.makeText(requireContext(), "Failed to upload image: ${state.msg}", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -103,7 +121,8 @@ class AddImagesFragment : Fragment() {
             false
         )
         imagesBinding.recyclerViewImages.adapter = imagesAdapter
-        imagesAdapter.submitList(args.productInfo?.images ?: emptyList())
+        imagesList = (args.productInfo?.images ?: emptyList()).toMutableList()
+        imagesAdapter.submitList(imagesList)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -154,27 +173,115 @@ class AddImagesFragment : Fragment() {
         selectedImageUri?.let { uri ->
             firebaseStorageHelper.uploadImage(uri,
                 onSuccess = { imageUrl ->
+                    Log.i("TAG", "uploadImageToFirebase: $imageUrl")
                     val productId = args.productInfo?.id ?: return@uploadImage
-                    val imageBody = SingleImageBody(
-                        image = SingleImage(
+                    val imageBody = ImagesItem(
+                            id = Random.nextLong(6),
+                            productId = productId,
                             width = 110,
                             height = 140,
                             position = 1,
                             alt = null,
                             src = imageUrl,
-                            variantIds = emptyList()
+                            variantIds = emptyList(),
+                            adminGraphqlApiId = null,
+                            createdAt = null,
+                            updatedAt = null
                         )
-                    )
-                    uploadImageViewModel.uploadImageToProduct(productId, imageBody)
+
+
+                    imagesList.add(imageBody)
+
+                    imagesAdapter.submitList(imagesList)
+                    Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
+
+                    // add new variant to product
+                    val updatedProduct = collectProductData()
+                    observeUpdateViewModel()
+                    if (updatedProduct != null) {
+                        updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
+                    }
+
+
                 },
                 onFailure = { exception ->
+                    Log.i("TAG", "uploadImageToFirebase: $exception")
                     Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
             )
         }
     }
 
+    private fun observeUpdateViewModel() {
+        lifecycleScope.launch {
+            updateProductViewModel.updateProductState.collect { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        imagesBinding.progressBar.visibility = View.VISIBLE
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(requireContext(), "Add Variant To Product successfully", Toast.LENGTH_SHORT).show()
+                        imagesBinding.progressBar.visibility = View.GONE
+                        // findNavController().popBackStack()
+                    }
+                    is UiState.Failed -> {
+                        //error state
+                        val errorMessage = state.msg.message
+                        imagesBinding.progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
         const val IMAGE_PICK_CODE = 1000
     }
+
+
+
+    private fun collectProductData(): SingleProductsResponse {
+
+        val updatingProduct = args.productInfo
+        Log.i("TAG", "collectProductData: ${updatingProduct?.images}")
+
+        val updatedProduct = Product(
+            id = updatingProduct?.id ?: 0L,
+            title = updatingProduct?.title ?: "",
+            bodyHtml = updatingProduct?.bodyHtml ?: "",
+            productType = updatingProduct?.productType ?: "",
+            vendor = updatingProduct?.vendor ?: "",
+            variants = updatingProduct?.variants ?: emptyList(),
+
+            image = updatingProduct?.image ?: Image(
+                updatedAt = GetTime.getCurrentTime(),
+                src = updatingProduct?.image?.src ?: "",
+                productId = updatingProduct?.id ?: 0L,
+                adminGraphqlApiId = null,
+                alt = null,
+                width = null,
+                createdAt = updatingProduct?.createdAt ?: "",
+                variantIds = null,
+                id = null,
+                position = null,
+                height = null
+            ),
+
+            images = imagesList,
+            createdAt = updatingProduct?.createdAt ?: "",
+            handle = updatingProduct?.handle ?: "",
+            tags = updatingProduct?.tags ?: "",
+            publishedScope = updatingProduct?.publishedScope ?: "",
+            templateSuffix = updatingProduct?.templateSuffix ?: "",
+            updatedAt = GetTime.getCurrentTime(),
+            adminGraphqlApiId = updatingProduct?.adminGraphqlApiId ?: "",
+            options = emptyList(),
+            publishedAt = updatingProduct?.publishedAt ?: "",
+            status = updatingProduct?.status ?: ""
+        )
+
+        return SingleProductsResponse(product = updatedProduct)
+    }
+
 }

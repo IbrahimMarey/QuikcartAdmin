@@ -31,6 +31,8 @@ import com.example.quikcartadmin.helpers.FirebaseStorageHelper
 import com.example.quikcartadmin.helpers.GetTime
 import com.example.quikcartadmin.helpers.UiState
 import com.example.quikcartadmin.models.entities.products.Image
+import com.example.quikcartadmin.models.entities.products.ImagesItem
+import com.example.quikcartadmin.models.entities.products.OptionsItem
 import com.example.quikcartadmin.models.entities.products.Product
 import com.example.quikcartadmin.models.entities.products.ProductBody
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
@@ -109,7 +111,7 @@ class CreateProductFragment : Fragment() {
 
             if (args.isCreated) {
                 val updatedProduct = collectProductData()
-                observeViewModel()
+                observeUpdateViewModel()
                 if (updatedProduct != null) {
                     updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
                 }
@@ -213,7 +215,21 @@ class CreateProductFragment : Fragment() {
                 height = 459
             ),
             bodyHtml = description,
-            images = emptyList(),
+            images = arrayOf(
+                ImagesItem(
+                    id = Random.nextLong(6),
+                    productId = productId,
+                    width = 110,
+                    height = 140,
+                    position = 1,
+                    alt = null,
+                    src = imageUrl,
+                    variantIds = emptyList(),
+                    adminGraphqlApiId = null,
+                    createdAt = null,
+                    updatedAt = null
+                )
+            ).toList(),
             createdAt = GetTime.getCurrentTime(),
             handle = "burton-custom-freestyle-151",
             variants = variantsList,
@@ -225,19 +241,38 @@ class CreateProductFragment : Fragment() {
             updatedAt = GetTime.getCurrentTime(),
             vendor = vendor,
             adminGraphqlApiId = "gid://shopify/Product/${productId}",
-            options = emptyList(),
+            options = arrayOf(
+                OptionsItem(
+                    id = Random.nextLong(4),
+                    productId = productId,
+                    name = "Size",
+                    position = 1,
+                    values = arrayOf(
+                        variantsList[0].option1
+                    )
+                ),
+                OptionsItem(
+                    id = Random.nextLong(4),
+                    productId = productId,
+                    name = "Color",
+                    position = 2,
+                    values = arrayOf(
+                        variantsList[0].option2
+                    )
+                )
+            ).toList(),
             id = productId,
             publishedAt = "",
             status = "draft"
         )
 
         val productBody = ProductBody(product)
-
+        Log.i("TAG", "************: ${productBody.product.variants}")
         callback(productBody)
     }
 
 
-    private fun observeViewModel() {
+    private fun observeUpdateViewModel() {
         lifecycleScope.launch {
             updateProductViewModel.updateProductState.collect { state ->
                 when (state) {
@@ -399,11 +434,11 @@ class CreateProductFragment : Fragment() {
                 val _option2 = option2Input.text.toString()
                 val _price = priceInput.text.toString().toIntOrNull() ?: 0
 
-                val variantsId = Random.nextLong()
+                val variantsId = Random.nextLong(6)
                 val variantItem = VariantsItem(
                     id = variantsId,
                     product_id = 0L,
-                    title = "$_option1 / $_option2",
+                    title = "$_option1/$_option2",
                     price = _price.toString(),
                     sku = "",
                     position = variantsList.size + 1,

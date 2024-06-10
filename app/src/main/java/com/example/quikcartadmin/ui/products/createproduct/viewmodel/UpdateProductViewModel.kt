@@ -1,6 +1,7 @@
 package com.example.quikcartadmin.ui.products.createproduct.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.quikcartadmin.helpers.UiState
 import com.example.quikcartadmin.models.entities.products.SingleImageBody
@@ -32,9 +33,7 @@ class UpdateProductViewModel @Inject constructor(
         }
     }
 
-
-    fun uploadImageToProduct(productId: Long, imageBody: SingleImageBody){
-
-    }
-
 }
+
+
+
