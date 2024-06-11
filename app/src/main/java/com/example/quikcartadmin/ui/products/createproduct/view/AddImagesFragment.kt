@@ -112,7 +112,19 @@ class AddImagesFragment : Fragment() {
 
     private fun setUpImagesRecyclerView() {
         imagesAdapter = AddImagesAdapter(requireContext()) {
-            // Handle item click if necessary
+
+            imagesList.remove(it)
+
+            imagesAdapter.submitList(imagesList)
+            Toast.makeText(requireContext(), "Image removed", Toast.LENGTH_SHORT).show()
+
+            // add new variant to product
+            val updatedProduct = collectProductData()
+            observeUpdateViewModel()
+            if (updatedProduct != null) {
+                updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
+            }
+
         }
         imagesBinding.recyclerViewImages.layoutManager = GridLayoutManager(
             requireContext(),
@@ -174,26 +186,17 @@ class AddImagesFragment : Fragment() {
             firebaseStorageHelper.uploadImage(uri,
                 onSuccess = { imageUrl ->
                     Log.i("TAG", "uploadImageToFirebase: $imageUrl")
-                    val productId = args.productInfo?.id ?: return@uploadImage
-                    val imageBody = ImagesItem(
-                            id = Random.nextLong(6),
-                            productId = productId,
-                            width = 110,
-                            height = 140,
-                            position = 1,
-                            alt = null,
-                            src = imageUrl,
-                            variantIds = emptyList(),
-                            adminGraphqlApiId = null,
-                            createdAt = null,
-                            updatedAt = null
-                        )
 
+                    val imageBody = ImagesItem(
+                            id = Random.nextLong(9),
+                            productId = args.productInfo?.id ?: 0L,
+                            src = imageUrl,
+                        )
 
                     imagesList.add(imageBody)
 
                     imagesAdapter.submitList(imagesList)
-                    Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Image added", Toast.LENGTH_SHORT).show()
 
                     // add new variant to product
                     val updatedProduct = collectProductData()
@@ -220,9 +223,8 @@ class AddImagesFragment : Fragment() {
                         imagesBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Add Variant To Product successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Updating Image successfully", Toast.LENGTH_SHORT).show()
                         imagesBinding.progressBar.visibility = View.GONE
-                        // findNavController().popBackStack()
                     }
                     is UiState.Failed -> {
                         //error state
@@ -255,17 +257,9 @@ class AddImagesFragment : Fragment() {
             variants = updatingProduct?.variants ?: emptyList(),
 
             image = updatingProduct?.image ?: Image(
-                updatedAt = GetTime.getCurrentTime(),
+                id = updatingProduct?.images?.get(0)?.id ?: 0L,
                 src = updatingProduct?.image?.src ?: "",
                 productId = updatingProduct?.id ?: 0L,
-                adminGraphqlApiId = null,
-                alt = null,
-                width = null,
-                createdAt = updatingProduct?.createdAt ?: "",
-                variantIds = null,
-                id = null,
-                position = null,
-                height = null
             ),
 
             images = imagesList,
@@ -276,7 +270,7 @@ class AddImagesFragment : Fragment() {
             templateSuffix = updatingProduct?.templateSuffix ?: "",
             updatedAt = GetTime.getCurrentTime(),
             adminGraphqlApiId = updatingProduct?.adminGraphqlApiId ?: "",
-            options = emptyList(),
+            options = updatingProduct?.options ?: emptyList(),
             publishedAt = updatingProduct?.publishedAt ?: "",
             status = updatingProduct?.status ?: ""
         )

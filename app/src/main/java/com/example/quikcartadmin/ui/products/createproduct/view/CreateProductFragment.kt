@@ -219,15 +219,7 @@ class CreateProductFragment : Fragment() {
                 ImagesItem(
                     id = Random.nextLong(6),
                     productId = productId,
-                    width = 110,
-                    height = 140,
-                    position = 1,
-                    alt = null,
-                    src = imageUrl,
-                    variantIds = emptyList(),
-                    adminGraphqlApiId = null,
-                    createdAt = null,
-                    updatedAt = null
+                    src = imageUrl
                 )
             ).toList(),
             createdAt = GetTime.getCurrentTime(),

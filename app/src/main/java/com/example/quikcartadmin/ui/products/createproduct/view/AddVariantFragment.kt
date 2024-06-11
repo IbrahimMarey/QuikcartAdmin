@@ -109,34 +109,14 @@ class AddVariantFragment : Fragment() {
                 val _option2 = option2Input.text.toString()
                 val _price = priceInput.text.toString().toIntOrNull() ?: 0
 
-                val variantsId = Random.nextLong(6)
                 val variantItem = VariantsItem(
-                    id = variantsId,
+                    id = Random.nextLong(9),
                     product_id = args.productsItem?.id ?: 0L,
                     title = "$_option1 / $_option2",
                     price = _price.toString(),
-                    sku = "",
-                    position = variantsList.size + 1,
-                    inventory_policy = "deny",
-                    compare_at_price = null,
-                    fulfillment_service = "manual",
-                    inventory_management = "shopify",
                     option1 = _option1,
                     option2 = _option2,
-                    option3 = null,
-                    created_at = GetTime.getCurrentTime(),
-                    updated_at = GetTime.getCurrentTime(),
-                    taxable = true,
-                    barcode = null,
-                    grams = 0,
-                    weight = 0.0,
-                    weight_unit = "kg",
-                    inventory_item_id = 47449209635051,
-                    inventory_quantity = 9,
-                    old_inventory_quantity = 9,
-                    requires_shipping = true,
-                    admin_graphql_api_id = "gid://shopify/ProductVariant/${variantsId}",
-                    image_id = null
+                    option3 = null
                 )
 
                 variantsList.add(variantItem)
@@ -169,7 +149,7 @@ class AddVariantFragment : Fragment() {
 
         val updatingProduct = args.productsItem
         Log.i("TAG", "collectProductData: ${updatingProduct?.variants}")
-
+        
         val updatedProduct = Product(
             id = updatingProduct?.id ?: 0L,
             title = updatingProduct?.title ?: "",
@@ -179,17 +159,9 @@ class AddVariantFragment : Fragment() {
             variants = variantsList,
 
             image = updatingProduct?.image ?: Image(
-                updatedAt = GetTime.getCurrentTime(),
                 src = updatingProduct?.image?.src ?: "",
                 productId = updatingProduct?.id ?: 0L,
-                adminGraphqlApiId = null,
-                alt = null,
-                width = null,
-                createdAt = updatingProduct?.createdAt ?: "",
-                variantIds = null,
-                id = null,
-                position = null,
-                height = null
+                id = updatingProduct?.image?.id ?: 0L
             ),
 
             images = updatingProduct?.images ?: emptyList(),
@@ -202,7 +174,7 @@ class AddVariantFragment : Fragment() {
             adminGraphqlApiId = updatingProduct?.adminGraphqlApiId ?: "",
             options = arrayOf(
                 OptionsItem(
-                    id = Random.nextLong(4),
+                    id = updatingProduct?.options?.get(0)?.id ?: 0L,
                     productId = updatingProduct?.id ?: 0L,
                     name = "Size",
                     position = 1,
@@ -211,7 +183,7 @@ class AddVariantFragment : Fragment() {
                     )
                 ),
                 OptionsItem(
-                    id = Random.nextLong(4),
+                    id = updatingProduct?.options?.get(1)?.id ?: 0L,
                     productId = updatingProduct?.id ?: 0L,
                     name = "Color",
                     position = 2,
