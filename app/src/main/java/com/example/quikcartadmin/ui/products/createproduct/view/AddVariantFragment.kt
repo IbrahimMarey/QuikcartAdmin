@@ -65,6 +65,19 @@ class AddVariantFragment : Fragment() {
     private fun setVariantsRecyclerView(){
         variantsAdapter = AddVariantsAdapter {
             // Handle item click if necessary
+
+            variantsList.remove(it)
+
+            variantsAdapter.submitList(variantsList)
+            Toast.makeText(requireContext(), "Variant removed", Toast.LENGTH_SHORT).show()
+
+            // add new variant to product
+            val updatedProduct = collectProductData()
+            observeUpdateViewModel()
+            if (updatedProduct != null) {
+                updateProductViewModel.updateProduct(args.productsItem?.id ?: 0, updatedProduct)
+            }
+
         }
 
         variantsBinding.recyclerViewImages.layoutManager = GridLayoutManager(
@@ -110,10 +123,9 @@ class AddVariantFragment : Fragment() {
                 val _price = priceInput.text.toString().toIntOrNull() ?: 0
 
                 val variantItem = VariantsItem(
-                    id = Random.nextLong(9),
                     product_id = args.productsItem?.id ?: 0L,
-                    title = "$_option1 / $_option2",
                     price = _price.toString(),
+                    title = "$_option1 / $_option2",
                     option1 = _option1,
                     option2 = _option2,
                     option3 = null
@@ -208,9 +220,9 @@ class AddVariantFragment : Fragment() {
                         variantsBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Add Variant To Product successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Updating Variant's Product successfully", Toast.LENGTH_SHORT).show()
                         variantsBinding.progressBar.visibility = View.GONE
-                       // findNavController().popBackStack()
+                        findNavController().navigate(R.id.action_addVariantFragment_to_home)
                     }
                     is UiState.Failed -> {
                         //error state

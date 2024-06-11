@@ -147,7 +147,7 @@ class CreateProductFragment : Fragment() {
                         is UiState.Success -> {
                             // Handle success state
                             createProductBinding.progressBar.visibility = View.GONE
-                            findNavController().popBackStack()
+                            findNavController().navigate(R.id.action_createProductFragment_to_home)
                             Toast.makeText(requireContext(), "Product Created Successfully", Toast.LENGTH_SHORT).show()
                         }
                         is UiState.Failed -> {
@@ -274,7 +274,7 @@ class CreateProductFragment : Fragment() {
                     is UiState.Success -> {
                         Toast.makeText(requireContext(), "Updating successfully", Toast.LENGTH_SHORT).show()
                         createProductBinding.progressBar.visibility = View.GONE
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.action_createProductFragment_to_home)
                     }
                     is UiState.Failed -> {
                         //error state

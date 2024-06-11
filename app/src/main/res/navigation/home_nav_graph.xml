@@ -80,6 +80,9 @@
             app:argType="com.example.quikcartadmin.models.entities.products.ProductsItem"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_createProductFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/addImagesFragment"
@@ -91,6 +94,9 @@
             app:argType="com.example.quikcartadmin.models.entities.products.ProductsItem"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addImagesFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/addVariantFragment"
@@ -102,6 +108,9 @@
             app:nullable="true"
             android:defaultValue="@null"
             />
+        <action
+            android:id="@+id/action_addVariantFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/allRulesFragment"

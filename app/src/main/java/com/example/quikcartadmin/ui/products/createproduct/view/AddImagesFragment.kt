@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.quikcartadmin.R
@@ -188,7 +189,6 @@ class AddImagesFragment : Fragment() {
                     Log.i("TAG", "uploadImageToFirebase: $imageUrl")
 
                     val imageBody = ImagesItem(
-                            id = Random.nextLong(9),
                             productId = args.productInfo?.id ?: 0L,
                             src = imageUrl,
                         )
@@ -223,8 +223,9 @@ class AddImagesFragment : Fragment() {
                         imagesBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Updating Image successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Updating Image's product successfully", Toast.LENGTH_SHORT).show()
                         imagesBinding.progressBar.visibility = View.GONE
+                        findNavController().navigate(R.id.action_addImagesFragment_to_home)
                     }
                     is UiState.Failed -> {
                         //error state
