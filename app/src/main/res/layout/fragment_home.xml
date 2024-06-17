@@ -12,23 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.view.HomeFragment">
-
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image_home"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:src="@drawable/product"
+        <ImageButton
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/logout"
+            android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.787"
             app:layout_constraintStart_toEndOf="@+id/hello_text"
-            app:layout_constraintTop_toTopOf="@+id/hello_text" />
+            app:layout_constraintTop_toTopOf="@+id/hello_text"
+            />
+
+
 
         <TextView
             android:id="@+id/hello_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome Back, Ahmed"
+            android:text="Hi, Quick Cart Admin"
             android:padding="8dp"
             android:textStyle="bold"
             android:textSize="21sp"

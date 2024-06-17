@@ -13,6 +13,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -199,11 +200,7 @@ class AddImagesFragment : Fragment() {
                     Toast.makeText(requireContext(), "Image added", Toast.LENGTH_SHORT).show()
 
                     // add new variant to product
-                    val updatedProduct = collectProductData()
-                    observeUpdateViewModel()
-                    if (updatedProduct != null) {
-                        updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
-                    }
+                    handleEditAction()
 
 
                 },
@@ -277,6 +274,25 @@ class AddImagesFragment : Fragment() {
         )
 
         return SingleProductsResponse(product = updatedProduct)
+    }
+
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Edit Rule")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                val updatedProduct = collectProductData()
+                observeUpdateViewModel()
+                if (updatedProduct != null) {
+                    updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 
 }

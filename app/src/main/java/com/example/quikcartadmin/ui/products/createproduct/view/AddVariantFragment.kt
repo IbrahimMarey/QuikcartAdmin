@@ -22,6 +22,7 @@ import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentAddVariantBinding
 import com.example.quikcartadmin.helpers.GetTime
 import com.example.quikcartadmin.helpers.UiState
+import com.example.quikcartadmin.models.entities.coupons.PriceRuleResponse
 import com.example.quikcartadmin.models.entities.products.Image
 import com.example.quikcartadmin.models.entities.products.OptionsItem
 import com.example.quikcartadmin.models.entities.products.Product
@@ -137,12 +138,7 @@ class AddVariantFragment : Fragment() {
                 Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
 
                 // add new variant to product
-                val updatedProduct = collectProductData()
-                observeUpdateViewModel()
-                if (updatedProduct != null) {
-                    updateProductViewModel.updateProduct(args.productsItem?.id ?: 0, updatedProduct)
-                }
-
+                handleEditAction()
             }
             .setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
 
@@ -234,6 +230,26 @@ class AddVariantFragment : Fragment() {
             }
         }
     }
+
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Edit Rule")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                val updatedProduct = collectProductData()
+                observeUpdateViewModel()
+                if (updatedProduct != null) {
+                    updateProductViewModel.updateProduct(args.productsItem?.id ?: 0, updatedProduct)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
 
 
 }

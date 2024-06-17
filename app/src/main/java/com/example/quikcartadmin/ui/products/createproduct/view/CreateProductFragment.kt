@@ -110,12 +110,7 @@ class CreateProductFragment : Fragment() {
         createProductBinding.editProductBtn.setOnClickListener {
 
             if (args.isCreated) {
-                val updatedProduct = collectProductData()
-                observeUpdateViewModel()
-                if (updatedProduct != null) {
-                    updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
-                }
-
+                handleEditAction()
             } else {
                 createProductObservation()
             }
@@ -527,4 +522,27 @@ class CreateProductFragment : Fragment() {
                 categoryType = parent.getItemAtPosition(position).toString()
             }
     }
+
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Edit Rule")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+                val updatedProduct = collectProductData()
+                observeUpdateViewModel()
+                if (updatedProduct != null) {
+                    updateProductViewModel.updateProduct(args.productInfo?.id ?: 0, updatedProduct)
+                }
+
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
 }

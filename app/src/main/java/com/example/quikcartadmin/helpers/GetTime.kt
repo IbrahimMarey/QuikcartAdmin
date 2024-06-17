@@ -13,4 +13,18 @@ object GetTime {
         return outputFormat.format(currentTime)
     }
 
+
+    fun formatDateString(dateString: String?, format: String = "yyyy-MM-dd HH:mm"): String {
+        if (dateString.isNullOrEmpty()) return ""
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault()) // Adjusted for timezone offset
+
+        val outputFormat = SimpleDateFormat(format, Locale.getDefault())
+        return try {
+            val date: Date? = inputFormat.parse(dateString)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            dateString
+        }
+    }
+
 }

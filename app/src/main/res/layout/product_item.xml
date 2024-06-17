@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_marginTop="8dp"
+            android:visibility="invisible"
             android:layout_marginStart="16dp"
             android:isIndicator="true"
             app:layout_constraintStart_toStartOf="@+id/image_of_product"

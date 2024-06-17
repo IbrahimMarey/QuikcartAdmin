@@ -1,5 +1,6 @@
 package com.example.quikcartadmin.ui.home.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.FragmentHomeBinding
+import com.example.quikcartadmin.helpers.AuthHelper
 import com.example.quikcartadmin.helpers.UiState
+import com.example.quikcartadmin.ui.auth.view.AuthenticationActivity
 import com.example.quikcartadmin.ui.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +35,23 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeBinding.logout.setOnClickListener {
+            AuthHelper.setUserSignedIn(requireContext(), false)
+            val intent = Intent(requireContext(), AuthenticationActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
+        homeBinding.cardCountOfProduct.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_all_products)
+        }
+
+        homeBinding.cardCountOfCoupons.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_allRulesFragment)
+        }
+
 
         fetchCountOfProduct()
         fetchCountOfCoupons()

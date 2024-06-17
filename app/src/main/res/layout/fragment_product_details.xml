@@ -97,6 +97,7 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_marginTop="4dp"
             android:isIndicator="true"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/product_vendor_details"
             app:layout_constraintTop_toBottomOf="@+id/product_vendor_details"
             />
@@ -109,6 +110,7 @@
             android:background="@drawable/background_price_details"
             android:padding="16dp"
             android:text="100 EG"
+
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"

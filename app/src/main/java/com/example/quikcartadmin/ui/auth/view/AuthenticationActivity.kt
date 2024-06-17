@@ -57,7 +57,7 @@ class AuthenticationActivity : AppCompatActivity() {
                             binding.progressBar.visibility = View.GONE
                             val success = state.data
                             if (success) {
-                                AuthHelper.setUserSignedIn(this@AuthenticationActivity, true)
+                                AuthHelper.setUserSignedIn(this@AuthenticationActivity, false)
                                 Toast.makeText(this@AuthenticationActivity, "Sign in successful", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@AuthenticationActivity, MainActivity::class.java)
                                 startActivity(intent)
