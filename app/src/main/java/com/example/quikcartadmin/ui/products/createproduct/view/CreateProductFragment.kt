@@ -68,18 +68,6 @@ class CreateProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createProductBinding.imageOfProductCreate.setOnClickListener {
-            pickImageForUpload { imageUrl ->
-                if (imageUrl != null) {
-                    Log.i("TAG", "after selected ${imageUrl}")
-                    Glide.with(requireContext())
-                        .load(imageUrl)
-                        .placeholder(R.drawable.product)
-                        .error(R.drawable.ic_close)
-                        .into(createProductBinding.imageOfProductCreate)
-                }
-            }
-        }
 
 
         if (args.isCreated){
@@ -99,12 +87,25 @@ class CreateProductFragment : Fragment() {
 
         }else if (args.isCreated == false){
             createProductBinding.editProductBtn.setText("Create Product")
-            createProductBinding.addImages.setOnClickListener {
 
-            }
+
             createProductBinding.addVaranint.setOnClickListener {
                 showInputDialogToAddVariant(option1 = "", option2 = "", price = 0)
             }
+
+            createProductBinding.addImages.setOnClickListener {
+                pickImageForUpload { imageUrl ->
+                    if (imageUrl != null) {
+                        Log.i("TAG", "after selected ${imageUrl}")
+                        Glide.with(requireContext())
+                            .load(imageUrl)
+                            .placeholder(R.drawable.product)
+                            .error(R.drawable.ic_close)
+                            .into(createProductBinding.imageOfProductCreate)
+                    }
+                }
+            }
+
         }
 
         createProductBinding.editProductBtn.setOnClickListener {
