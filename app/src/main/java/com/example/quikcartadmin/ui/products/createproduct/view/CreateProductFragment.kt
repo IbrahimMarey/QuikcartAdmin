@@ -123,12 +123,14 @@ class CreateProductFragment : Fragment() {
 
     private fun createProductObservation() {
         if (uploadedImageUrl == null) {
-            Toast.makeText(requireContext(), "Please upload an image", Toast.LENGTH_SHORT).show()
+            alertToAdd("Please upload an image")
+            //Toast.makeText(requireContext(), "Please upload an image", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (variantsList.isEmpty()) {
-            Toast.makeText(requireContext(), "Please add at least one variant", Toast.LENGTH_SHORT).show()
+            alertToAdd("Please add at least one variant")
+            //Toast.makeText(requireContext(), "Please add at least one variant", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -185,8 +187,9 @@ class CreateProductFragment : Fragment() {
         val category = categoryType
         val vendor = vendorType
 
-        if (title.isEmpty() || description.isEmpty()) {
-            Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
+        if (title.isEmpty() || description.isEmpty() || vendor.isEmpty() || category.isEmpty()) {
+            //Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
+            alertToAdd("Please, fill all fields")
             callback(null)
             return
         }
@@ -291,7 +294,8 @@ class CreateProductFragment : Fragment() {
         val vendor = createProductBinding.vendorEt.text.toString()
 
         if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
-            Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
+            alertToAdd("Please, fill all fields")
+            //Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             return null
         }
 
@@ -526,8 +530,8 @@ class CreateProductFragment : Fragment() {
 
     private fun handleEditAction() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Edit Rule")
-            .setMessage("Are you sure you want to save edit?")
+            .setTitle("Edit Product")
+            .setMessage("Are you sure you want to save changes?")
             .setPositiveButton(
                 "OK"
             ) { _, _ ->
@@ -545,4 +549,18 @@ class CreateProductFragment : Fragment() {
             .show()
     }
 
+
+    private fun alertToAdd(msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Alert")
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
 }

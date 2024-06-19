@@ -279,8 +279,8 @@ class AddImagesFragment : Fragment() {
 
     private fun handleEditAction() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Edit Rule")
-            .setMessage("Are you sure you want to save edit?")
+            .setTitle("Add new Image")
+            .setMessage("Are you sure you want to save changes?")
             .setPositiveButton(
                 "OK"
             ) { _, _ ->
