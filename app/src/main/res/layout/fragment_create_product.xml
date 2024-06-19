@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="75dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.products.createproduct.view.CreateProductFragment">
+
+    <ImageView
+        android:id="@+id/image_of_product_create"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/product"
+        android:contentDescription="@string/products"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_of_product_create">
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/title"
+            android:inputType="text"
+            android:maxLength="40"
+            android:padding="20dp"
+            android:singleLine="true"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/vendor_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/title_input"
+        app:layout_constraintEnd_toEndOf="@+id/title_input"
+        app:layout_constraintTop_toBottomOf="@+id/title_input">
+
+        <AutoCompleteTextView
+            android:id="@+id/vendor_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/vendor"
+            android:inputType="text"
+            android:maxLength="40"
+            android:padding="20dp"
+            android:singleLine="true"
+            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox.Dense"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/description_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="120dp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/vendor_input"
+        app:layout_constraintEnd_toEndOf="@+id/vendor_input"
+        app:layout_constraintTop_toBottomOf="@+id/vendor_input">
+
+        <EditText
+            android:id="@+id/description_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/description"
+            android:inputType="text"
+            android:padding="2dp"
+            android:maxLines="5"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/category_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/description_input"
+        app:layout_constraintEnd_toEndOf="@+id/description_input"
+        app:layout_constraintTop_toBottomOf="@+id/description_input">
+
+        <AutoCompleteTextView
+            android:id="@+id/category_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/category"
+            android:inputType="text"
+            android:maxLength="40"
+            android:padding="20dp"
+            android:singleLine="true"
+            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox.Dense"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+        android:id="@+id/add_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/camera"
+        android:drawablePadding="16dp"
+        android:background="@drawable/et_edit_text"
+        android:padding="16dp"
+        android:text="@string/add_some_pictures_to_product"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="@+id/category_input"
+        app:layout_constraintEnd_toEndOf="@+id/category_input"
+        app:layout_constraintTop_toBottomOf="@+id/category_input"
+        />
+
+
+    <TextView
+        android:id="@+id/add_varanint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/variants_icons"
+        android:drawablePadding="16dp"
+        android:background="@drawable/et_edit_text"
+        android:padding="16dp"
+        android:text="@string/add_some_varinats_to_products"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="@+id/add_images"
+        app:layout_constraintEnd_toEndOf="@+id/add_images"
+        app:layout_constraintTop_toBottomOf="@+id/add_images"
+        />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>
+
+    <Button
+    android:id="@+id/edit_product_btn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="16dp"
+    android:backgroundTint="@color/xd_dark_burgundy"
+    android:text="@string/add_product"
+    android:textStyle="bold"
+    android:layout_margin="16dp"
+    android:layout_gravity="bottom" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

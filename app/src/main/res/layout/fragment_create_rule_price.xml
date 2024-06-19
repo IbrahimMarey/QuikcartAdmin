@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.coupons.createrule.view.CreateRulePriceFragment">
+
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_price_rule"
+        android:textSize="20sp"
+        android:fontFamily="@font/caveat"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/xd_dark_burgundy"
+        android:textStyle="italic|bold"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label">
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/title"
+            android:inputType="text"
+            android:maxLength="40"
+            android:padding="20dp"
+            android:singleLine="true"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/value_input"
+        android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/xd_red"
+        app:endIconTint="@color/xd_red"
+        app:shapeAppearance="@style/Rounded"
+        app:boxStrokeColor="@color/xd_red"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_input">
+
+        <EditText
+            android:id="@+id/value_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="name"
+            android:hint="@string/price"
+            android:inputType="number"
+            android:maxLength="40"
+            android:padding="20dp"
+            android:singleLine="true"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/valueType_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/value_type"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/xd_dark_burgundy"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/xd_dark_burgundy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/endsAt_textLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/valueType_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox.Dense"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/startAt_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:hint="@string/start_date"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/xd_dark_burgundy"
+        app:errorEnabled="true"
+        android:layout_marginTop="16dp"
+        app:hintTextColor="@color/xd_dark_burgundy"
+        app:startIconDrawable="@drawable/baseline_calendar_month_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/value_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/startAt_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/startTime_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/time"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/xd_dark_burgundy"
+        app:errorEnabled="true"
+        android:layout_marginTop="16dp"
+        app:hintTextColor="@color/xd_dark_burgundy"
+        app:startIconDrawable="@drawable/baseline_access_time_24"
+        app:layout_constraintStart_toEndOf="@id/startAt_textLayout"
+        app:layout_constraintTop_toBottomOf="@id/value_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/startTime_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/endsAt_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:hint="@string/end_date"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/xd_dark_burgundy"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/xd_dark_burgundy"
+        app:startIconDrawable="@drawable/baseline_calendar_month_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/startAt_textLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/endsAt_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/endTime_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:hint="@string/time"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/xd_dark_burgundy"
+        app:errorEnabled="true"
+        app:startIconDrawable="@drawable/baseline_access_time_24"
+        app:hintTextColor="@color/xd_dark_burgundy"
+        app:layout_constraintStart_toEndOf="@id/endsAt_textLayout"
+        app:layout_constraintTop_toBottomOf="@id/startAt_textLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/endTime_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/add"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        app:cornerRadius="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/xd_dark_burgundy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

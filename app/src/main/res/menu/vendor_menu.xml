@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/vans"
+        android:title="VANS"/>
+    <item
+        android:id="@+id/puma"
+        android:title="PUMA"/>
+    <item
+        android:id="@+id/timberland"
+        android:title="TIMBERLAND"/>
+    <item
+        android:id="@+id/supra"
+        android:title="SUPRA"/>
+    <item
+        android:id="@+id/nike"
+        android:title="NIKE"/>
+    <item
+        android:id="@+id/palladium"
+        android:title="PALLADIUM"/>
+    <item
+        android:id="@+id/herschel"
+        android:title="HERSCHEL"/>
+    <item
+        android:id="@+id/flexfit"
+        android:title="FLEX FIT"/>
+    <item
+        android:id="@+id/drmartens"
+        android:title="Dr. Martens"/>
+    <item
+        android:id="@+id/adidas"
+        android:title="Adidas"/>
+    <item
+        android:id="@+id/asicstiger"
+        android:title="Asics Tiger"/>
+    <item
+        android:id="@+id/converse"
+        android:title="Converse"/>
+</menu>

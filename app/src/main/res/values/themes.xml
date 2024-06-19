@@ -2,8 +2,28 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.QuikcartAdmin" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/xd_dark_burgundy</item>
     </style>
 
     <style name="Theme.QuikcartAdmin" parent="Base.Theme.QuikcartAdmin" />
+
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="Rounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxStrokeColor">@color/xd_red</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="RoundedAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/rounded_dialog_background</item>
+    </style>
+
+
 </resources>
