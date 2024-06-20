@@ -88,11 +88,6 @@ class CreateProductFragment : Fragment() {
         }else if (args.isCreated == false){
             createProductBinding.editProductBtn.setText("Create Product")
 
-
-            createProductBinding.addVaranint.setOnClickListener {
-                showInputDialogToAddVariant(option1 = "", option2 = "", price = 0)
-            }
-
             createProductBinding.addImages.setOnClickListener {
                 pickImageForUpload { imageUrl ->
                     if (imageUrl != null) {
@@ -105,7 +100,9 @@ class CreateProductFragment : Fragment() {
                     }
                 }
             }
-
+            createProductBinding.addVaranint.setOnClickListener {
+                showInputDialogToAddVariant(option1 = "", option2 = "", price = 0)
+            }
         }
 
         createProductBinding.editProductBtn.setOnClickListener {
@@ -258,7 +255,7 @@ class CreateProductFragment : Fragment() {
         )
 
         val productBody = ProductBody(product)
-        Log.i("TAG", "************: ${productBody.product.variants}")
+        Log.i("TAG", "************: ${productBody.product?.variants}")
         callback(productBody)
     }
 

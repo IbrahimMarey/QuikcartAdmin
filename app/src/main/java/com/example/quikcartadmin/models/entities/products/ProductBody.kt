@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class ProductBody(
 
 	@field:SerializedName("product")
-	val product: Product
+	val product: Product? = null
 )

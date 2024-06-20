@@ -5,56 +5,56 @@ import com.google.gson.annotations.SerializedName
 data class Product(
 
 	@field:SerializedName("image")
-	val image: Image,
+	val image: Image? = null ,
 
 	@field:SerializedName("body_html")
-	val bodyHtml: String,
+	val bodyHtml: String ? = null,
 
 	@field:SerializedName("images")
-	val images: List<ImagesItem>,
+	val images: List<ImagesItem>? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: String,
+	val createdAt: String? = null,
 
 	@field:SerializedName("handle")
-	val handle: String,
+	val handle: String? = null,
 
 	@field:SerializedName("variants")
-	val variants: List<VariantsItem>,
+	val variants: List<VariantsItem>? = null,
 
 	@field:SerializedName("title")
-	val title: String,
+	val title: String? = null,
 
 	@field:SerializedName("tags")
-	val tags: String,
+	val tags: String? = null,
 
 	@field:SerializedName("published_scope")
-	val publishedScope: String,
+	val publishedScope: String? = null,
 
 	@field:SerializedName("product_type")
-	val productType: String,
+	val productType: String? = null,
 
 	@field:SerializedName("template_suffix")
-	val templateSuffix: Any,
+	val templateSuffix: Any? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String,
+	val updatedAt: String? = null,
 
 	@field:SerializedName("vendor")
-	val vendor: String,
+	val vendor: String? = null,
 
 	@field:SerializedName("admin_graphql_api_id")
-	val adminGraphqlApiId: String,
+	val adminGraphqlApiId: String? = null,
 
 	@field:SerializedName("options")
-	val options: List<OptionsItem>,
+	val options: List<OptionsItem>? = null,
 
 	@field:SerializedName("id")
-	val id: Long,
+	val id: Long? = null,
 
 	@field:SerializedName("published_at")
-	val publishedAt: String,
+	val publishedAt: String? = null,
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String? = null
 )
