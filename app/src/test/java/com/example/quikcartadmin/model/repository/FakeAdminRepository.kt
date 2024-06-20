@@ -1,5 +1,7 @@
-package com.example.quikcartadmin.models.repository
+package com.example.quikcartadmin.model.repository
 
+import com.example.quikcartadmin.model.remote.FakeCouponsRemoteDataSource
+import com.example.quikcartadmin.model.remote.FakeRemoteDataSource
 import com.example.quikcartadmin.models.entities.coupons.CouponsCountResponse
 import com.example.quikcartadmin.models.entities.coupons.DiscountCode
 import com.example.quikcartadmin.models.entities.coupons.DiscountCodeBody
@@ -14,73 +16,69 @@ import com.example.quikcartadmin.models.entities.products.ProductsResponse
 import com.example.quikcartadmin.models.entities.products.SingleImageBody
 import com.example.quikcartadmin.models.entities.products.SingleImageResponse
 import com.example.quikcartadmin.models.entities.products.SingleProductsResponse
-import com.example.quikcartadmin.models.remote.datasource.CouponsDataSource
 import com.example.quikcartadmin.models.remote.datasource.ICouponsRemoteDataSource
 import com.example.quikcartadmin.models.remote.datasource.IRemoteDataSource
-import com.example.quikcartadmin.models.remote.datasource.RemoteDataSourceImp
 import com.example.quikcartadmin.models.repository.IAdminRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class AdminRepository @Inject constructor(
-    private val remoteDataSource: IRemoteDataSource,
-    private val couponsDataSource: ICouponsRemoteDataSource
-) : IAdminRepository {
+class FakeAdminRepository : IAdminRepository {
+
+    private val fakeCouponsDataSource: ICouponsRemoteDataSource = FakeCouponsRemoteDataSource()
+    private val fakeRemoteDataSource: IRemoteDataSource = FakeRemoteDataSource()
     override suspend fun getCountOfProducts(): Flow<ProductsCountResponse> {
-        return remoteDataSource.getCountOfProducts()
+        return fakeRemoteDataSource.getCountOfProducts()
     }
 
     override suspend fun getCountOfCoupons(): Flow<CouponsCountResponse> {
-        return couponsDataSource.getCountOfCoupons()
+        return fakeCouponsDataSource.getCountOfCoupons()
     }
 
     override suspend fun getCountOfInventory(): Flow<InventoryCountResponse> {
-        return remoteDataSource.getCountOfInventory()
+        return fakeRemoteDataSource.getCountOfInventory()
     }
 
     override suspend fun getAllProducts(): Flow<ProductsResponse> {
-        return remoteDataSource.getAllProducts()
+        return fakeRemoteDataSource.getAllProducts()
     }
+
     override suspend fun deleteProduct(productId: Long?) {
-        remoteDataSource.deleteProduct(productId)
+        fakeRemoteDataSource.deleteProduct(productId)
     }
 
     override suspend fun updateProduct(
         productId: Long,
         product: SingleProductsResponse
     ): SingleProductsResponse {
-        return remoteDataSource.updateProduct(productId,product)
+        TODO("Not yet implemented")
     }
 
     override suspend fun uploadImageToProduct(
         productId: Long,
         imageBody: SingleImageBody
     ): SingleImageResponse {
-        return remoteDataSource.uploadImageToProduct(productId, imageBody)
-    }
-    override suspend fun createProduct(body: ProductBody): SingleProductsResponse {
-        return remoteDataSource.createProduct(body)
+        TODO("Not yet implemented")
     }
 
-    ///coupons
+    override suspend fun createProduct(body: ProductBody): SingleProductsResponse {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getPriceRules(): Flow<List<PriceRule>> {
-        return flowOf(couponsDataSource.getPriceRules())
+        return flowOf(fakeCouponsDataSource.getPriceRules())
     }
 
     override suspend fun getDiscounts(ruleID: Long): Flow<List<DiscountCode>> {
-        return flowOf(couponsDataSource.getDiscounts(ruleID))
+        return flowOf(fakeCouponsDataSource.getDiscounts(ruleID))
     }
+
     override suspend fun deleteDiscount(ruleID: Long, discountId: Long): Flow<String> {
-        return flowOf(couponsDataSource.deleteDiscount(ruleID,discountId))
+        TODO("Not yet implemented")
     }
 
     override suspend fun deletePriceRule(ruleID: Long): Flow<String> {
-        return flowOf(couponsDataSource.deletePriceRule(ruleID))
-    }
-
-    override suspend fun updatePriceRule(ruleID: Long, body: PriceRuleResponse): Flow<PriceRuleResponse> {
-        return flowOf(couponsDataSource.updatePriceRule(ruleID,body))
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateDiscount(
@@ -88,15 +86,24 @@ class AdminRepository @Inject constructor(
         discountId: Long,
         body: DiscountCodeResponse
     ): Flow<DiscountCodeResponse> {
-        return flowOf(couponsDataSource.updateDiscount(ruleID,discountId,body))
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updatePriceRule(
+        ruleID: Long,
+        body: PriceRuleResponse
+    ): Flow<PriceRuleResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun createDiscountCode(
+        ruleID: Long,
+        body: DiscountCodeBody
+    ): Flow<DiscountCode> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun createPriceRule(body: PriceRuleBody): Flow<PriceRuleResponse?> {
-        return flowOf(couponsDataSource.createPriceRule(body))
+        TODO("Not yet implemented")
     }
-
-    override suspend fun createDiscountCode(ruleID : Long, body: DiscountCodeBody): Flow<DiscountCode> {
-        return flowOf(couponsDataSource.createDiscountCode(ruleID, body))
-    }
-
 }

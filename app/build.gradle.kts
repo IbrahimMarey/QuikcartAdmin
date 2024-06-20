@@ -5,16 +5,22 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id ("kotlin-kapt")
+    id ("kotlin-android")
     id ("androidx.navigation.safeargs")
     id("com.google.dagger.hilt.android")
+    id ("dagger.hilt.android.plugin")
     alias(libs.plugins.google.gms.google.services)
 }
 
 android {
+
     namespace = "com.example.quikcartadmin"
     compileSdk = 34
 
     defaultConfig {
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         applicationId = "com.example.quikcartadmin"
         minSdk = 24
         targetSdk = 34
@@ -36,6 +42,11 @@ android {
 
 
     buildTypes {
+
+        getByName("debug") {
+            isTestCoverageEnabled = true // Optional: Enable test coverage reports
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -63,6 +74,9 @@ android {
 dependencies {
 
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.runner)
+    testImplementation(project(":app"))
+    testImplementation(project(":app"))
     val robolectricVersion = ("4.5.1")
     val hamcrestVersion = ("1.3")
     val junitVersion = ("4.13.2")
@@ -107,42 +121,11 @@ dependencies {
     //refresh
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    //for Kotlin + workManager
-    implementation ("androidx.work:work-runtime-ktx:2.9.0")
-
-    // AndroidX and Robolectric
-    testImplementation("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
-    testImplementation("androidx.test:core-ktx:$androidXTestCoreVersion")
-    testImplementation("org.robolectric:robolectric:4.8")
-
-    // InstantTaskExecutorRule
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
-    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
 
     // kotlinx-coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-
-    // hamcrest
-    testImplementation("org.hamcrest:hamcrest:2.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
-    androidTestImplementation("org.hamcrest:hamcrest:2.2")
-    androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
-
-    // Dependencies for local unit tests
-    testImplementation("junit:junit:$junitVersion")
-    testImplementation("org.hamcrest:hamcrest-all:$hamcrestVersion")
-    testImplementation("androidx.arch.core:core-testing:$archTestingVersion")
-    testImplementation("org.robolectric:robolectric:$robolectricVersion")
-
-    // AndroidX Test - JVM testing
-    testImplementation("androidx.test:core-ktx:$androidXTestCoreVersion")
-    //testImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
-
-    // AndroidX Test - Instrumented testing
-    androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
 
     //glide
     implementation ("com.github.bumptech.glide:glide:4.14.2")
@@ -165,17 +148,11 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.1.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
-    // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.48")
-    kaptTest ("com.google.dagger:hilt-compiler:2.48")
 
     // Hilt
     implementation ("com.google.dagger:hilt-android:2.48.1")
     kapt ("com.google.dagger:hilt-compiler:2.48.1")
 
-    // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48")
-    kaptAndroidTest ("com.google.dagger:hilt-compiler:2.48")
 
     //curved bottom nav
     implementation ("com.github.qamarelsafadi:CurvedBottomNavigation:0.1.3")
@@ -188,6 +165,49 @@ dependencies {
 
     //picasso
     implementation ("com.squareup.picasso:picasso:2.8")
+
+
+    // Hilt - testing
+    androidTestImplementation (libs.hilt.android.testing.v2381)
+    kaptAndroidTest (libs.hilt.android.compiler)
+
+
+    // For local unit tests
+    testImplementation ("com.google.dagger:hilt-android-testing:2.48")
+    kaptTest ("com.google.dagger:hilt-compiler:2.48")
+    // hamcrest
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
+
+    // AndroidX and Robolectric
+    testImplementation("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
+    testImplementation("androidx.test:core-ktx:$androidXTestCoreVersion")
+    testImplementation("org.robolectric:robolectric:4.8")
+
+    // InstantTaskExecutorRule
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // Dependencies for local unit tests
+    testImplementation(libs.junit)
+    testImplementation(libs.hamcrest.all)
+    testImplementation(libs.androidx.arch.core.core.testing)
+    testImplementation(libs.robolectric.robolectric)
+
+    // AndroidX Test - JVM testing
+    testImplementation(libs.test.core.ktx)
+    //testImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation(libs.androidx.junit.v113)
+    androidTestImplementation(libs.androidx.espresso.core.v340)
+
+    // For instrumentation tests
+    androidTestImplementation  (libs.google.hilt.android.testing)
+    kaptAndroidTest (libs.com.google.dagger.hilt.compiler)
+
 }
 
 kapt{
