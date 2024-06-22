@@ -122,13 +122,11 @@ class CreateProductFragment : Fragment() {
     private fun createProductObservation() {
         if (uploadedImageUrl == null) {
             alertToAdd("Please upload an image")
-            //Toast.makeText(requireContext(), "Please upload an image", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (variantsList.isEmpty()) {
             alertToAdd("Please add at least one variant")
-            //Toast.makeText(requireContext(), "Please add at least one variant", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -143,12 +141,12 @@ class CreateProductFragment : Fragment() {
                             // Handle success state
                             createProductBinding.progressBar.visibility = View.GONE
                             findNavController().navigate(R.id.action_createProductFragment_to_home)
-                            Toast.makeText(requireContext(), "Product Created Successfully", Toast.LENGTH_SHORT).show()
+                            makeAlert("Product Created Successfully", "Creating new Product to our store is done")
                         }
                         is UiState.Failed -> {
                             // Handle error state
                             createProductBinding.progressBar.visibility = View.GONE
-                            Toast.makeText(requireContext(), "Failed to create product: ${state.msg}", Toast.LENGTH_SHORT).show()
+                            makeAlert("Failed to create product", "Make sure about your connection to create new Product.")
                         }
                     }
                 }
@@ -186,7 +184,6 @@ class CreateProductFragment : Fragment() {
         val vendor = vendorType
 
         if (title.isEmpty() || description.isEmpty() || vendor.isEmpty() || category.isEmpty()) {
-            //Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             alertToAdd("Please, fill all fields")
             callback(null)
             return
@@ -268,7 +265,7 @@ class CreateProductFragment : Fragment() {
                         createProductBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Updating successfully", Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating successfully", "Updating product is done.")
                         createProductBinding.progressBar.visibility = View.GONE
                         findNavController().navigate(R.id.action_createProductFragment_to_home)
                     }
@@ -276,7 +273,7 @@ class CreateProductFragment : Fragment() {
                         //error state
                         val errorMessage = state.msg.message
                         createProductBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating Failed", "updating failed, make sure about connection to can update.")
                     }
                 }
             }
@@ -293,7 +290,6 @@ class CreateProductFragment : Fragment() {
 
         if (title.isEmpty() || description.isEmpty() || category.isEmpty() || vendor.isEmpty()) {
             alertToAdd("Please, fill all fields")
-            //Toast.makeText(requireContext(), "Please, fill all fields", Toast.LENGTH_SHORT).show()
             return null
         }
 
@@ -378,12 +374,12 @@ class CreateProductFragment : Fragment() {
                         imageUploadCallback?.invoke(imageUrl)
                     },
                     onFailure = { exception ->
-                        Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        makeAlert("Failed to upload image", "Ensure about connection and try again.")
                         imageUploadCallback?.invoke(null)
                     }
                 )
             } ?: run {
-                Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+                makeAlert("Failed to upload image", "No image selected.")
                 imageUploadCallback?.invoke(null)
             }
         }
@@ -454,7 +450,6 @@ class CreateProductFragment : Fragment() {
                 )
 
                 variantsList.add(variantItem)
-                Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
             }
                 .setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
 
@@ -551,6 +546,20 @@ class CreateProductFragment : Fragment() {
     private fun alertToAdd(msg: String) {
         AlertDialog.Builder(requireContext())
             .setTitle("Alert")
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
             .setMessage(msg)
             .setPositiveButton(
                 "OK"

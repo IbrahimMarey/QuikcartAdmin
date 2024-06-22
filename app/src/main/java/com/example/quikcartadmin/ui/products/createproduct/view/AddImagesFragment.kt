@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -101,11 +100,10 @@ class AddImagesFragment : Fragment() {
                             )
                         )
                         imagesAdapter.submitList(currentImages)
-                        Toast.makeText(requireContext(), "Image Uploaded", Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Failed -> {
                         Log.i("TAG", "onViewCreated: ${state.msg}")
-                        Toast.makeText(requireContext(), "Failed to upload image: ${state.msg}", Toast.LENGTH_SHORT).show()
+                        makeAlert("Failed to upload image", "Make sure your connection to can Upload image.")
                     }
                 }
             }
@@ -118,8 +116,6 @@ class AddImagesFragment : Fragment() {
             imagesList.remove(it)
 
             imagesAdapter.submitList(imagesList)
-            Toast.makeText(requireContext(), "Image removed", Toast.LENGTH_SHORT).show()
-
             // add new variant to product
             val updatedProduct = collectProductData()
             observeUpdateViewModel()
@@ -197,8 +193,6 @@ class AddImagesFragment : Fragment() {
                     imagesList.add(imageBody)
 
                     imagesAdapter.submitList(imagesList)
-                    Toast.makeText(requireContext(), "Image added", Toast.LENGTH_SHORT).show()
-
                     // add new variant to product
                     handleEditAction()
 
@@ -206,7 +200,7 @@ class AddImagesFragment : Fragment() {
                 },
                 onFailure = { exception ->
                     Log.i("TAG", "uploadImageToFirebase: $exception")
-                    Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    makeAlert("Failed to upload image", "make sure connection to can upload Image.")
                 }
             )
         }
@@ -220,7 +214,7 @@ class AddImagesFragment : Fragment() {
                         imagesBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Updating Image's product successfully", Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating Image's product successfully", "Updating to add new Image to product is done.")
                         imagesBinding.progressBar.visibility = View.GONE
                         findNavController().navigate(R.id.action_addImagesFragment_to_home)
                     }
@@ -228,7 +222,7 @@ class AddImagesFragment : Fragment() {
                         //error state
                         val errorMessage = state.msg.message
                         imagesBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating Image's product Failed", "make sure connection to can add new Image.")
                     }
                 }
             }
@@ -295,4 +289,19 @@ class AddImagesFragment : Fragment() {
             .show()
     }
 
+
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
 }

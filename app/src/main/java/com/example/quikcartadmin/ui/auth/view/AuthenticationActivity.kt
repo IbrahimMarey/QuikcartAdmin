@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.quikcartadmin.databinding.ActivityAuthenticationBinding
@@ -40,7 +41,7 @@ class AuthenticationActivity : AppCompatActivity() {
         val password = binding.PasswordTextField.editText?.text.toString()
 
         if (!email.endsWith("@admin.com")) {
-            Toast.makeText(this, "Some thing wrong in signIn, ensure about your mail", Toast.LENGTH_SHORT).show()
+            errorAlert("Maybe your email and password is incorrect")
             return
         }
 
@@ -58,23 +59,22 @@ class AuthenticationActivity : AppCompatActivity() {
                             val success = state.data
                             if (success) {
                                 AuthHelper.setUserSignedIn(this@AuthenticationActivity, false)
-                                Toast.makeText(this@AuthenticationActivity, "Sign in successful", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@AuthenticationActivity, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
-                                Toast.makeText(this@AuthenticationActivity, "Sign in failed. Please try again.", Toast.LENGTH_SHORT).show()
+                                errorAlert("Sign in failed. Please try again.")
                             }
                         }
                         is UiState.Failed -> {
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@AuthenticationActivity, "Error: ${state.msg}", Toast.LENGTH_SHORT).show()
+                            errorAlert("Failed SignIn")
                         }
                     }
                 }
             }
         } else {
-            Toast.makeText(this, "Invalid email or password. Please check your input.", Toast.LENGTH_SHORT).show()
+            errorAlert("Invalid email or password. Please check your input.")
         }
     }
 
@@ -85,4 +85,21 @@ class AuthenticationActivity : AppCompatActivity() {
     private fun isValidPassword(password: String): Boolean {
         return password.length >= 8
     }
+
+
+
+    private fun errorAlert(msg: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Alert")
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
 }
+

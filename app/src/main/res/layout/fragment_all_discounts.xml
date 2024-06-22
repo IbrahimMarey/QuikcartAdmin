@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:text="@string/discounts"
         android:textSize="@dimen/text_giant"
-        android:fontFamily="@font/caveat"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_medium"
         android:textColor="@color/xd_dark_burgundy"

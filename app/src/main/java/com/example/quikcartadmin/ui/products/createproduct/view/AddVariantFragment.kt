@@ -70,7 +70,7 @@ class AddVariantFragment : Fragment() {
             variantsList.remove(it)
 
             variantsAdapter.submitList(variantsList)
-            Toast.makeText(requireContext(), "Variant removed", Toast.LENGTH_SHORT).show()
+
 
             // add new variant to product
             val updatedProduct = collectProductData()
@@ -135,7 +135,6 @@ class AddVariantFragment : Fragment() {
                 variantsList.add(variantItem)
 
                 variantsAdapter.submitList(variantsList)
-                Toast.makeText(requireContext(), "Variant added", Toast.LENGTH_SHORT).show()
 
                 // add new variant to product
                 handleEditAction()
@@ -216,7 +215,7 @@ class AddVariantFragment : Fragment() {
                         variantsBinding.progressBar.visibility = View.VISIBLE
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), "Updating Variant's Product successfully", Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating Variant's Product successfully", "Adding new variant to product is done")
                         variantsBinding.progressBar.visibility = View.GONE
                         findNavController().navigate(R.id.action_addVariantFragment_to_home)
                     }
@@ -224,7 +223,8 @@ class AddVariantFragment : Fragment() {
                         //error state
                         val errorMessage = state.msg.message
                         variantsBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                        makeAlert("Updating Variant's Product failed", "make sure about connection to can add new variant.")
+
                     }
                 }
             }
@@ -250,6 +250,20 @@ class AddVariantFragment : Fragment() {
             .show()
     }
 
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
 
 
 }

@@ -109,11 +109,11 @@ class AllDiscountsFragment : Fragment(), DiscountListener {
                     }
                     is UiState.Success -> {
                         viewModel.getDiscounts(priceRule.id!!)
-                        Toast.makeText(requireActivity(),"deleted successfully",Toast.LENGTH_LONG).show()
+                        makeAlert("Deleted successfully","deleted discount code is code.")
                     }
                     else -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(),"deletion failed", Toast.LENGTH_LONG).show()
+                        makeAlert("Deleted failed","make sure your connection to delete.")
                     }
                 }
             }
@@ -153,5 +153,19 @@ class AllDiscountsFragment : Fragment(), DiscountListener {
     override fun deleteDiscount(discountCode: DiscountCode) {
         this.discountCode = discountCode
         handleDeleteAction()
+    }
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 }

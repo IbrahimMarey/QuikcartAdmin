@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/price_rules"
         android:textSize="20sp"
-        android:fontFamily="@font/caveat"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textColor="@color/xd_asset_burgundy"
