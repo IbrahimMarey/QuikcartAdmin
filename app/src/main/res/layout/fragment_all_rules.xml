@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:text="@string/price_rules"
         android:textSize="20sp"
-        android:fontFamily="@font/caveat"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textColor="@color/xd_asset_burgundy"
@@ -39,10 +38,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/baseline_add_24"
-        android:tint="@color/white"
+        app:srcCompat="@drawable/baseline_add_24"
         android:backgroundTint="@color/xd_asset_burgundy"
         android:layout_marginEnd="20dp"
+        app:tint="@android:color/white"
         android:layout_marginBottom="50dp"/>
 
     <ProgressBar

@@ -88,13 +88,12 @@ class UpdateDiscountFragment : DialogFragment() {
                     is UiState.Success -> {
                         alertDialog.dismiss()
                         discountListener.getDiscounts()
-                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
-                            .show()
+                        makeAlert("Updating successfully","update discount code is done.")
                         dismiss()
                     }
                     else -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_LONG).show()
+                        makeAlert("Updating failed","make sure your connection to update.")
                         dismiss()
                     }
                 }
@@ -128,5 +127,19 @@ class UpdateDiscountFragment : DialogFragment() {
             )
         )
         alertDialog.show()
+    }
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 }

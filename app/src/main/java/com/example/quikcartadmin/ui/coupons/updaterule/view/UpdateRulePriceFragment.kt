@@ -118,14 +118,12 @@ class UpdateRulePriceFragment : Fragment() {
                     }
                     is UiState.Success -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
-                            .show()
+                        makeAlert("Updating successfully","update price rule is done.")
                         findNavController().popBackStack()
                     }
                     is UiState.Failed -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_LONG)
-                            .show()
+                        makeAlert("Updating failed","make sure your connection to update.")
                     }
                 }
             }
@@ -201,7 +199,7 @@ class UpdateRulePriceFragment : Fragment() {
             }
         }
         if(!validateDate()){
-            Toast.makeText(requireContext(),"End date before start date",Toast.LENGTH_LONG).show()
+            makeAlert("Alert","End date before start date.")
             return false
         }
         return true
@@ -299,6 +297,20 @@ class UpdateRulePriceFragment : Fragment() {
             }, mHour!!, mMinute!!, false
         )
         timePickerDialog.show()
+    }
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 
 }

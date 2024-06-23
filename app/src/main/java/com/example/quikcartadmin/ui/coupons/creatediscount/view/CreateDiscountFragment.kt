@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -84,19 +83,31 @@ class CreateDiscountFragment : DialogFragment() {
                     is UiState.Success -> {
                         alertDialog.dismiss()
                         discountListener.getDiscounts()
-                        Toast.makeText(requireActivity(), "Created successfully", Toast.LENGTH_LONG)
-                            .show()
+                        makeAlert("Created successfully","create discount code is done.")
                         dismiss()
                     }
                     is UiState.Failed -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(), "Creation failed", Toast.LENGTH_LONG)
-                            .show()
+                        makeAlert("Creation failed","make sure your connection to create.")
                         dismiss()
                     }
                 }
             }
         }
+    }
+
+    private fun makeAlert(title: String,msg: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 
 }

@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -60,6 +59,13 @@ class AllProductsFragment : Fragment() {
                             it.productType?.toLowerCase(Locale.getDefault())!!.contains(searchText) ||
                             it.vendor?.toLowerCase(Locale.getDefault())!!.contains(searchText)
                 }
+
+                if (filteredList.isEmpty()) {
+                    proudctsBinding.noList.visibility = View.VISIBLE
+                } else {
+                    proudctsBinding.noList.visibility = View.GONE
+                }
+
                 allProductAdapter.submitList(filteredList)
             }
         })

@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:text="@string/discounts"
         android:textSize="@dimen/text_giant"
-        android:fontFamily="@font/caveat"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_medium"
         android:textColor="@color/xd_dark_burgundy"
@@ -41,6 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/baseline_add_24"
         android:backgroundTint="@color/xd_dark_burgundy"
+        app:tint="@android:color/white"
         android:layout_margin="@dimen/margin_small"/>
 
     <ProgressBar
