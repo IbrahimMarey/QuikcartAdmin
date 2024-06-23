@@ -59,6 +59,13 @@ class AllProductsFragment : Fragment() {
                             it.productType?.toLowerCase(Locale.getDefault())!!.contains(searchText) ||
                             it.vendor?.toLowerCase(Locale.getDefault())!!.contains(searchText)
                 }
+
+                if (filteredList.isEmpty()) {
+                    proudctsBinding.noList.visibility = View.VISIBLE
+                } else {
+                    proudctsBinding.noList.visibility = View.GONE
+                }
+
                 allProductAdapter.submitList(filteredList)
             }
         })
