@@ -1,11 +1,17 @@
 package com.example.quikcartadmin.ui
 
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.quikcartadmin.R
 import com.example.quikcartadmin.databinding.ActivityMainBinding
+import com.example.quikcartadmin.helpers.NetworkChangeReceiver
+import com.example.quikcartadmin.helpers.NetworkConnection
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.qamar.curvedbottomnaviagtion.CurvedBottomNavigation
 import com.qamar.curvedbottomnaviagtion.gone
 import com.qamar.curvedbottomnaviagtion.visible
@@ -17,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController: NavController
 
+    private lateinit var networkChangeReceiver: NetworkChangeReceiver
+
     private val HOME_ITEM = R.id.home
     private val PRODUCTS_ITEM = R.id.all_products
     private val COUPONS_ITEM = R.id.allRulesFragment
@@ -27,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavHost()
         binding.setUpBottomNavigation()
+
+        networkChangeReceiver = NetworkChangeReceiver(this)
+        registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(networkChangeReceiver)
     }
     private fun ActivityMainBinding.setUpBottomNavigation() {
 
